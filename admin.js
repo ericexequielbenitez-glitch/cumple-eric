@@ -103,16 +103,42 @@ document.querySelectorAll(".filter-tab").forEach(btn => {
 });
 
 // ── Generar link ──
+const infoEventos = {
+  amigos:  { fecha: "viernes 21 de mayo", hora: "21:00 hs", lugar: "Bricks Coffee & Food, Corrientes 366" },
+  trabajo: { fecha: "viernes 22 de mayo", hora: "21:00 hs", lugar: "Bricks Coffee & Food, Corrientes 366" }
+};
+
 document.getElementById("generar-link").addEventListener("click", () => {
   const nombre = document.getElementById("nombre-input").value.trim();
   if (!nombre) { document.getElementById("nombre-input").focus(); return; }
   const evento = document.getElementById("evento-select").value;
   const link   = `${BASE_URL}/?evento=${evento}&nombre=${encodeURIComponent(nombre)}`;
+  const info   = infoEventos[evento];
 
   const linkResult    = document.getElementById("link-result");
   const linkContainer = document.getElementById("link-container");
-  linkResult.value         = link;
+  linkResult.value            = link;
   linkContainer.style.display = "block";
+
+  // ── Mensaje WhatsApp ──
+  const msg = `🎂 *¡Hola ${nombre}!*
+
+Te invito a festejar mis 26 años 🥂
+
+📅 *Fecha:* ${info.fecha}
+⏰ *Horario:* ${info.hora}
+📍 *Lugar:* ${info.lugar}
+
+Confirmá tu asistencia desde el link 👇
+${link}
+
+*Tené en cuenta:*
+⏰ Se requiere puntualidad
+🍻 El consumo en el bar no está cubierto (cada uno paga lo que consume)
+
+¡Espero verte ahí! ✨`;
+
+  document.getElementById("whatsapp-msg").value = msg;
 });
 
 // ── Copiar link ──
@@ -121,6 +147,17 @@ document.getElementById("copy-btn").addEventListener("click", () => {
   if (!val) return;
   navigator.clipboard.writeText(val).then(() => {
     const btn = document.getElementById("copy-btn");
+    btn.textContent = "COPIADO ✓";
+    setTimeout(() => btn.textContent = "COPIAR", 2000);
+  });
+});
+
+// ── Copiar mensaje WhatsApp ──
+document.getElementById("copy-wa").addEventListener("click", () => {
+  const val = document.getElementById("whatsapp-msg").value;
+  if (!val) return;
+  navigator.clipboard.writeText(val).then(() => {
+    const btn = document.getElementById("copy-wa");
     btn.textContent = "COPIADO ✓";
     setTimeout(() => btn.textContent = "COPIAR", 2000);
   });

@@ -29,21 +29,20 @@ const MAPS = "https://www.google.com/maps/place/Bricks+coffee+and+food/@-27.4458
 const eventos = {
   amigos: {
     fechaTexto:     "Viernes 21 de Mayo, 2026",
-    hora:           "21:30 hs",
+    hora:           "21:00 hs",
     direccion:      "Bricks Coffee & Food · Corrientes 366",
     maps:           MAPS,
-    fechaCountdown: "2026-05-21T21:30:00"
+    fechaCountdown: "2026-05-21T21:00:00"
   },
   trabajo: {
     fechaTexto:     "Viernes 22 de Mayo, 2026",
-    hora:           "21:30 hs",
+    hora:           "21:00 hs",
     direccion:      "Bricks Coffee & Food · Corrientes 366",
     maps:           MAPS,
-    fechaCountdown: "2026-05-22T21:30:00"
+    fechaCountdown: "2026-05-22T21:00:00"
   }
 };
 
-// ── Fallback al evento amigos si el parámetro no existe ──
 const data = eventos[evento] ?? eventos.amigos;
 
 // ── Rellenar info ──
@@ -93,12 +92,32 @@ confirmarBtn.addEventListener("click", async () => {
     confirmarBtn.innerText = "CONFIRMADO ✓";
     confirmarBtn.style.background = "linear-gradient(135deg,#55d36a,#38b350)";
 
+    // ── Mostrar popup solo si confirmó asistencia ──
+    if (asistencia) {
+      mostrarPopupInfo();
+    }
+
   } catch (err) {
     console.error(err);
     confirmarBtn.disabled  = false;
     confirmarBtn.innerText = "REINTENTAR";
     confirmarBtn.style.background = "linear-gradient(135deg,#ff6b6b,#c94a4a)";
     alert("Error al enviar la confirmación. Verificá tu conexión.");
+  }
+});
+
+// ── Popup info ──
+function mostrarPopupInfo() {
+  document.getElementById("popup-overlay").classList.add("visible");
+}
+
+document.getElementById("popup-close").addEventListener("click", () => {
+  document.getElementById("popup-overlay").classList.remove("visible");
+});
+
+document.getElementById("popup-overlay").addEventListener("click", (e) => {
+  if (e.target === document.getElementById("popup-overlay")) {
+    document.getElementById("popup-overlay").classList.remove("visible");
   }
 });
 

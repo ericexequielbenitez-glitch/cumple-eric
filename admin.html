@@ -168,9 +168,15 @@
         </button>
       </div>
       <div id="link-container" style="display:none;margin-top:14px;">
+        <p style="font-size:10px;letter-spacing:2px;color:var(--gold);text-transform:uppercase;margin-bottom:8px;">Link directo</p>
         <div class="link-row">
           <input type="text" id="link-result" class="link-output" readonly>
           <button class="copy-btn" id="copy-btn">COPIAR</button>
+        </div>
+        <p style="font-size:10px;letter-spacing:2px;color:var(--gold);text-transform:uppercase;margin:16px 0 8px;">Mensaje para WhatsApp</p>
+        <div style="position:relative;">
+          <textarea id="whatsapp-msg" readonly style="width:100%;height:160px;background:var(--bg);border:1px solid rgba(201,168,106,.2);border-radius:12px;padding:14px;color:var(--text);font-family:'DM Sans',sans-serif;font-size:13px;line-height:1.7;resize:none;"></textarea>
+          <button class="copy-btn" id="copy-wa" style="position:absolute;bottom:12px;right:12px;height:36px;font-size:10px;">COPIAR</button>
         </div>
       </div>
     </div>
