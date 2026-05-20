@@ -28,7 +28,7 @@ const MAPS = "https://www.google.com/maps/place/Bricks+coffee+and+food/@-27.4458
 // ── Eventos ──
 const eventos = {
   amigos: {
-    fechaTexto:     "Viernes 21 de Mayo, 2026",
+    fechaTexto:     "Jueves 21 de Mayo, 2026",
     hora:           "21:00 hs",
     direccion:      "Bricks Coffee & Food · Corrientes 366",
     maps:           MAPS,
