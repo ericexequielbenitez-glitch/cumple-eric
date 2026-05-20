@@ -2,147 +2,108 @@
 <html lang="es">
 <head>
   <meta charset="UTF-8" />
-  <title>Admin Invitaciones</title>
+  <title>Admin – Invitación Premium</title>
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <link rel="stylesheet" href="style.css" />
 </head>
-<body class="theme-dark">
-  <main class="admin-container">
-    <section class="card admin-card">
-      <header class="card-header">
-        <h1>Panel de eventos</h1>
-        <p class="event-phrase">Crear, editar y gestionar invitaciones.</p>
-      </header>
 
-      <section class="card-body admin-grid">
-        <!-- Formulario de evento -->
-        <div class="admin-section">
-          <h2 class="section-title">Evento</h2>
-          <form id="event-form" class="form-grid">
-            <div class="form-group">
-              <label for="event-id">ID / slug</label>
-              <input id="event-id" type="text" placeholder="ej: after" required />
-              <small>Se usa en ?evento=ID</small>
-            </div>
+<body class="theme-dark admin-layout">
 
-            <div class="form-group">
-              <label for="event-title-input">Título</label>
-              <input id="event-title-input" type="text" placeholder="Ej: After Birthday" required />
-            </div>
+  <main class="admin-wrapper">
 
-            <div class="form-group">
-              <label for="event-phrase-input">Frase elegante</label>
-              <input id="event-phrase-input" type="text" placeholder="Una noche para celebrar." required />
-            </div>
+    <!-- PANEL IZQUIERDO -->
+    <section class="admin-left">
 
-            <div class="form-group">
-              <label for="event-date-input">Fecha</label>
-              <input id="event-date-input" type="date" required />
-            </div>
+      <h1 class="admin-title">Panel de eventos</h1>
+      <p class="admin-subtitle">Crear, editar y visualizar tu invitación en vivo.</p>
 
-            <div class="form-group">
-              <label for="event-time-input">Horario</label>
-              <input id="event-time-input" type="time" required />
-            </div>
+      <!-- FORMULARIO -->
+      <div class="admin-section">
+        <h2 class="section-title">Datos del evento</h2>
 
-            <div class="form-group">
-              <label for="event-address-input">Dirección</label>
-              <input id="event-address-input" type="text" placeholder="Calle, número, ciudad" required />
-            </div>
+        <form id="event-form" class="form-grid">
 
-            <div class="form-group">
-              <label for="event-maps-input">Google Maps (opcional)</label>
-              <input id="event-maps-input" type="url" placeholder="URL de Google Maps" />
-              <small>Si se deja vacío, se genera con la dirección.</small>
-            </div>
-
-            <div class="form-actions">
-              <button type="submit" class="btn btn-primary" id="btn-save-event">
-                Guardar evento
-              </button>
-              <button type="button" class="btn btn-outline" id="btn-new-event">
-                Nuevo
-              </button>
-            </div>
-          </form>
-        </div>
-
-        <!-- Lista de eventos -->
-        <div class="admin-section">
-          <h2 class="section-title">Eventos guardados</h2>
-          <div class="event-list" id="event-list"></div>
-        </div>
-
-        <!-- Links personalizados -->
-        <div class="admin-section">
-          <h2 class="section-title">Links personalizados</h2>
-          <div class="form-grid">
-            <div class="form-group">
-              <label for="link-event-select">Evento</label>
-              <select id="link-event-select"></select>
-            </div>
-            <div class="form-group">
-              <label for="link-name-input">Nombre invitado</label>
-              <input id="link-name-input" type="text" placeholder="Juan" />
-            </div>
-            <div class="form-group">
-              <label>Link generado</label>
-              <input id="generated-link" type="text" readonly />
-            </div>
-            <div class="form-actions">
-              <button type="button" class="btn btn-primary" id="btn-generate-link">
-                Generar link
-              </button>
-              <button type="button" class="btn btn-outline" id="btn-copy-link">
-                Copiar link
-              </button>
-              <span class="status" id="link-status"></span>
-            </div>
-          </div>
-        </div>
-
-        <!-- Asistentes -->
-        <div class="admin-section">
-          <h2 class="section-title">Asistencias</h2>
-          <div class="form-grid">
-            <div class="form-group">
-              <label for="att-event-select">Evento</label>
-              <select id="att-event-select"></select>
-            </div>
-            <div class="form-group">
-              <label for="att-filter-select">Filtro asistencia</label>
-              <select id="att-filter-select">
-                <option value="ALL">Todos</option>
-                <option value="SI">Asistirán</option>
-                <option value="NO">No podrán</option>
-              </select>
-            </div>
-            <div class="form-actions">
-              <button type="button" class="btn btn-primary" id="btn-load-attendees">
-                Cargar asistentes
-              </button>
-            </div>
+          <div class="form-group">
+            <label>ID / slug</label>
+            <input id="event-id" type="text" placeholder="cumple-eric" required />
           </div>
 
-          <div class="table-wrapper">
-            <table class="table" id="attendees-table">
-              <thead>
-                <tr>
-                  <th>Fecha</th>
-                  <th>Evento</th>
-                  <th>Nombre</th>
-                  <th>Asistencia</th>
-                  <th>Mensaje</th>
-                </tr>
-              </thead>
-              <tbody></tbody>
-            </table>
+          <div class="form-group">
+            <label>Título</label>
+            <input id="event-title-input" type="text" placeholder="Te invito a festejar mis 26" required />
           </div>
 
-          <p class="status" id="att-status"></p>
+          <div class="form-group">
+            <label>Frase elegante</label>
+            <input id="event-phrase-input" type="text" placeholder="Una noche para celebrar juntos." required />
+          </div>
+
+          <div class="form-group">
+            <label>Fecha</label>
+            <input id="event-date-input" type="date" required />
+          </div>
+
+          <div class="form-group">
+            <label>Horario</label>
+            <input id="event-time-input" type="time" required />
+          </div>
+
+          <div class="form-group">
+            <label>Dirección</label>
+            <input id="event-address-input" type="text" placeholder="Bar Bricks – Corrientes 366" required />
+          </div>
+
+          <div class="form-group">
+            <label>Google Maps (opcional)</label>
+            <input id="event-maps-input" type="url" placeholder="https://maps.google.com/..." />
+          </div>
+
+          <div class="form-actions">
+            <button type="submit" class="btn btn-primary">Guardar evento</button>
+            <button type="button" id="btn-new-event" class="btn btn-outline">Nuevo</button>
+          </div>
+
+        </form>
+      </div>
+
+      <!-- LINKS -->
+      <div class="admin-section">
+        <h2 class="section-title">Links personalizados</h2>
+
+        <div class="form-grid">
+          <div class="form-group">
+            <label>Evento</label>
+            <select id="link-event-select"></select>
+          </div>
+
+          <div class="form-group">
+            <label>Nombre invitado</label>
+            <input id="link-name-input" type="text" placeholder="Juan" />
+          </div>
+
+          <div class="form-group">
+            <label>Link generado</label>
+            <input id="generated-link" type="text" readonly />
+          </div>
+
+          <div class="form-actions">
+            <button id="btn-generate-link" class="btn btn-primary">Generar link</button>
+            <button id="btn-copy-link" class="btn btn-outline">Copiar</button>
+            <span id="link-status" class="status"></span>
+          </div>
         </div>
-      </section>
+      </div>
+
     </section>
+
+    <!-- PANEL DERECHO (PREVIEW) -->
+    <section class="admin-right">
+      <h2 class="section-title">Vista previa en vivo</h2>
+
+      <iframe id="preview-frame" class="preview-frame" src="index.html"></iframe>
+
+    </section>
+
   </main>
 
   <script src="admin.js"></script>
