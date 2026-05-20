@@ -1,5 +1,4 @@
 import { initializeApp } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-app.js";
-
 import {
   getFirestore,
   collection,
@@ -16,134 +15,144 @@ const firebaseConfig = {
 };
 
 const app = initializeApp(firebaseConfig);
-const db = getFirestore(app);
+const db  = getFirestore(app);
 
-async function cargarRespuestas(){
+const BASE_URL = "https://cumple-eric.vercel.app";
 
-  const snapshot =
-  await getDocs(collection(db,"respuestas"));
+let allRespuestas = [];
+let filtroActivo  = "todos";
 
-  const container =
-  document.getElementById("respuestas");
+// ── Cargar respuestas ──
+async function cargarRespuestas() {
+  try {
+    const snapshot = await getDocs(collection(db, "respuestas"));
+    allRespuestas = [];
 
-  container.innerHTML = "";
+    snapshot.forEach(doc => {
+      allRespuestas.push({ id: doc.id, ...doc.data() });
+    });
 
-  let total = 0;
-  let asisten = 0;
-  let noAsisten = 0;
+    renderStats(allRespuestas);
+    renderRespuestas(allRespuestas, filtroActivo);
 
-  snapshot.forEach((doc)=>{
-
-    total++;
-
-    const data = doc.data();
-
-    if(data.asistencia){
-      asisten++;
-    }else{
-      noAsisten++;
-    }
-
-    container.innerHTML += `
-
-      <div
-        style="
-        background:#0f0f0f;
-        border:1px solid rgba(255,255,255,.06);
-        padding:20px;
-        border-radius:18px;
-        margin-bottom:15px;
-        "
-      >
-
-        <h3>${data.nombre}</h3>
-
-        <p style="margin-top:8px;">
-          Evento: ${data.evento}
-        </p>
-
-        <p style="margin-top:8px;color:${data.asistencia ? '#55d36a' : '#ff6b6b'};">
-          ${data.asistencia ? 'Asiste' : 'No asiste'}
-        </p>
-
-        <small style="display:block;margin-top:10px;color:#ccc;">
-          ${data.mensaje || '-'}
-        </small>
-
-      </div>
-
-    `;
-  });
-
-  document.getElementById("total")
-  .textContent = total;
-
-  document.getElementById("asisten")
-  .textContent = asisten;
-
-  document.getElementById("no-asisten")
-  .textContent = noAsisten;
+  } catch (err) {
+    console.error("Error cargando respuestas:", err);
+    document.getElementById("respuestas").innerHTML =
+      `<div class="empty-state">Error al cargar respuestas.<br><small>${err.message}</small></div>`;
+  }
 }
 
-cargarRespuestas();
+// ── Stats ──
+function renderStats(data) {
+  const asisten   = data.filter(d => d.asistencia).length;
+  const noAsisten = data.filter(d => !d.asistencia).length;
 
-const generarBtn =
-document.getElementById("generar-link");
+  document.getElementById("total").textContent      = data.length;
+  document.getElementById("asisten").textContent    = asisten;
+  document.getElementById("no-asisten").textContent = noAsisten;
+}
 
-const linkResult =
-document.getElementById("link-result");
+// ── Render tarjetas ──
+function renderRespuestas(data, filtro) {
+  const container = document.getElementById("respuestas");
 
-const nombreInput =
-document.getElementById("nombre-input");
+  const filtered = filtro === "todos"
+    ? data
+    : data.filter(d => d.evento === filtro);
 
-const eventoSelect =
-document.getElementById("evento-select");
+  if (filtered.length === 0) {
+    container.innerHTML = `<div class="empty-state">Sin respuestas aún${filtro !== "todos" ? " para este evento" : ""}.</div>`;
+    return;
+  }
 
-const BASE_URL =
-"https://cumple-eric.vercel.app";
+  container.innerHTML = filtered.map(d => {
+    const fecha = d.fecha
+      ? new Date(d.fecha).toLocaleDateString("es-AR", { day:"2-digit", month:"short", hour:"2-digit", minute:"2-digit" })
+      : "";
 
+    const eventoLabel = d.evento === "after" ? "After" : "Cumple";
 
-generarBtn.addEventListener("click",()=>{
+    return `
+      <div class="response-card">
+        <div>
+          <h3>${escapeHtml(d.nombre || "—")}</h3>
+          <p class="response-meta">${eventoLabel} · ${fecha}</p>
+          ${d.mensaje ? `<p class="response-meta" style="margin-top:8px;font-style:italic;">"${escapeHtml(d.mensaje)}"</p>` : ""}
+        </div>
+        <span class="badge ${d.asistencia ? "badge-si" : "badge-no"}">
+          ${d.asistencia ? "ASISTE" : "NO ASISTE"}
+        </span>
+      </div>
+    `;
+  }).join("");
+}
 
-  const nombre = encodeURIComponent(
-    nombreInput.value
-  );
+function escapeHtml(str) {
+  return String(str)
+    .replace(/&/g,"&amp;")
+    .replace(/</g,"&lt;")
+    .replace(/>/g,"&gt;")
+    .replace(/"/g,"&quot;");
+}
 
-  const evento = eventoSelect.value;
-
-  const link =
-  `${BASE_URL}/?evento=${evento}&nombre=${nombre}`;
-
-  linkResult.value = link;
+// ── Filtros ──
+document.querySelectorAll(".filter-tab").forEach(btn => {
+  btn.addEventListener("click", () => {
+    document.querySelectorAll(".filter-tab").forEach(b => b.classList.remove("active"));
+    btn.classList.add("active");
+    filtroActivo = btn.dataset.filter;
+    renderRespuestas(allRespuestas, filtroActivo);
+  });
 });
 
+// ── Generar link ──
+document.getElementById("generar-link").addEventListener("click", () => {
+  const nombre = document.getElementById("nombre-input").value.trim();
+  if (!nombre) {
+    document.getElementById("nombre-input").focus();
+    return;
+  }
+  const evento = document.getElementById("evento-select").value;
+  const link   = `${BASE_URL}/?evento=${evento}&nombre=${encodeURIComponent(nombre)}`;
 
-document
-.getElementById("excel-btn")
-.addEventListener("click",exportarExcel);
+  const linkResult    = document.getElementById("link-result");
+  const linkContainer = document.getElementById("link-container");
 
-async function exportarExcel(){
+  linkResult.value       = link;
+  linkContainer.style.display = "block";
+});
 
-  const snapshot =
-  await getDocs(collection(db,"respuestas"));
-
-  const datos = [];
-
-  snapshot.forEach((doc)=>{
-
-    datos.push(doc.data());
-
+// ── Copiar link ──
+document.getElementById("copy-btn").addEventListener("click", () => {
+  const val = document.getElementById("link-result").value;
+  if (!val) return;
+  navigator.clipboard.writeText(val).then(() => {
+    const btn = document.getElementById("copy-btn");
+    btn.textContent = "COPIADO ✓";
+    setTimeout(() => btn.textContent = "COPIAR", 2000);
   });
+});
+
+// ── Exportar Excel ──
+document.getElementById("excel-btn").addEventListener("click", async () => {
+  if (allRespuestas.length === 0) {
+    alert("No hay respuestas para exportar.");
+    return;
+  }
+
+  const datos = allRespuestas.map(d => ({
+    Nombre:     d.nombre    || "",
+    Evento:     d.evento    || "",
+    Asistencia: d.asistencia ? "Sí" : "No",
+    Mensaje:    d.mensaje   || "",
+    Fecha:      d.fecha     || ""
+  }));
 
   const ws = XLSX.utils.json_to_sheet(datos);
-
   const wb = XLSX.utils.book_new();
+  XLSX.utils.book_append_sheet(wb, ws, "Invitados");
+  XLSX.writeFile(wb, `invitados-eric26-${new Date().toISOString().slice(0,10)}.xlsx`);
+});
 
-  XLSX.utils.book_append_sheet(
-    wb,
-    ws,
-    "Invitados"
-  );
-
-  XLSX.writeFile(wb,"invitados.xlsx");
-}
+// ── Init ──
+cargarRespuestas();

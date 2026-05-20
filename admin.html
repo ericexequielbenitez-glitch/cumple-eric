@@ -3,99 +3,222 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Admin</title>
-
+  <title>Admin · Eric 26</title>
   <link rel="stylesheet" href="styles.css">
-
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@600;700&family=DM+Sans:wght@300;400;500;600&display=swap" rel="stylesheet">
   <script src="https://cdn.sheetjs.com/xlsx-0.20.2/package/dist/xlsx.full.min.js"></script>
+
+  <style>
+    .admin-card {
+      width: 100%;
+      max-width: 860px;
+      background: var(--card);
+      border: 1px solid var(--border);
+      border-radius: var(--radius);
+      padding: 48px 40px;
+      position: relative;
+      overflow: hidden;
+      animation: cardReveal .8s cubic-bezier(.16,1,.3,1) both;
+    }
+    .admin-card::before {
+      content: '';
+      position: absolute;
+      top: 0; left: 0; right: 0;
+      height: 1px;
+      background: linear-gradient(90deg, transparent, var(--gold), transparent);
+      opacity: .6;
+    }
+    .section-title {
+      font-size: 10px;
+      letter-spacing: 4px;
+      color: var(--gold);
+      text-transform: uppercase;
+      margin-bottom: 16px;
+    }
+    .link-output {
+      width: 100%;
+      height: 52px;
+      background: var(--bg);
+      border: 1px solid rgba(201,168,106,.25);
+      border-radius: 12px;
+      padding: 0 16px;
+      color: var(--gold-light);
+      font-family: 'DM Mono', monospace, 'DM Sans', sans-serif;
+      font-size: 13px;
+      cursor: text;
+    }
+    .copy-btn {
+      height: 52px;
+      padding: 0 20px;
+      background: var(--surface);
+      color: var(--muted);
+      border: 1px solid var(--border);
+      border-radius: 12px;
+      font-size: 11px;
+      letter-spacing: 2px;
+      white-space: nowrap;
+      transition: all .2s;
+    }
+    .copy-btn:hover { color: var(--text); border-color: rgba(255,255,255,.2); }
+    .link-row { display: flex; gap: 10px; align-items: center; }
+    #excel-btn {
+      height: 52px;
+      padding: 0 28px;
+      background: var(--surface);
+      color: var(--muted);
+      border: 1px solid var(--border);
+      border-radius: 12px;
+      font-size: 11px;
+      letter-spacing: 2px;
+      transition: all .2s;
+    }
+    #excel-btn:hover { color: var(--text); border-color: rgba(255,255,255,.2); }
+    .section-divider {
+      border: none;
+      border-top: 1px solid var(--border);
+      margin: 36px 0;
+    }
+    .responses-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: 20px;
+    }
+    .filter-tabs {
+      display: flex;
+      gap: 8px;
+    }
+    .filter-tab {
+      height: 32px;
+      padding: 0 14px;
+      background: var(--surface);
+      color: var(--muted);
+      border: 1px solid var(--border);
+      border-radius: 8px;
+      font-size: 11px;
+      letter-spacing: 1px;
+      cursor: pointer;
+      transition: all .2s;
+    }
+    .filter-tab.active,
+    .filter-tab:hover {
+      color: var(--gold-light);
+      border-color: rgba(201,168,106,.3);
+    }
+    .empty-state {
+      text-align: center;
+      padding: 48px;
+      color: var(--muted);
+      font-size: 14px;
+    }
+    @media (max-width: 600px) {
+      .admin-card { padding: 32px 22px; }
+      .link-row { flex-direction: column; }
+      .link-output { height: auto; padding: 14px 16px; }
+    }
+  </style>
 </head>
 <body>
 
-<div class="container">
+<canvas id="particles-canvas"></canvas>
+<div class="bg-glow"></div>
 
-  <div class="card" style="max-width:900px;">
+<div class="container" style="align-items:flex-start; padding-top: 48px;">
+  <div class="admin-card">
 
-    <h1 style="font-size:48px;">
-      PANEL ADMIN
-    </h1>
-
-    <div class="countdown" style="margin-top:30px;">
-
+    <div class="admin-header">
       <div>
-        <strong id="total">0</strong>
+        <span class="tag" style="opacity:1;">Panel Admin</span>
+        <h1 style="font-family:'Playfair Display',serif;font-size:48px;font-weight:700;background:linear-gradient(135deg,#e8c98a,#c9a86a,#a8803a);-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text;margin-top:8px;">Eric · 26</h1>
+      </div>
+      <button id="excel-btn">↓ EXPORTAR EXCEL</button>
+    </div>
+
+    <!-- Stats -->
+    <div class="stats-grid">
+      <div class="stat-card">
+        <strong id="total">—</strong>
         <span>Total</span>
       </div>
-
-      <div>
-        <strong id="asisten">0</strong>
+      <div class="stat-card">
+        <strong id="asisten" style="color:#55d36a;">—</strong>
         <span>Asisten</span>
       </div>
-
-      <div>
-        <strong id="no-asisten">0</strong>
+      <div class="stat-card">
+        <strong id="no-asisten" style="color:#ff6b6b;">—</strong>
         <span>No asisten</span>
       </div>
-
     </div>
 
-    <div class="info-box" style="margin-top:40px;">
+    <hr class="section-divider">
 
-      <h3>
-        Generar link personalizado
-      </h3>
-
-      <br>
-
-      <input
-        id="nombre-input"
-        placeholder="Nombre invitado"
-        style="width:100%;height:54px;border-radius:12px;padding:15px;background:#0e0e0e;color:white;border:none;"
-      >
-
-      <br><br>
-
-      <select
-        id="evento-select"
-        style="width:100%;height:54px;border-radius:12px;padding:15px;background:#0e0e0e;color:white;border:none;"
-      >
-
-        <option value="principal">
-          Cumple principal
-        </option>
-
-        <option value="after">
-          After
-        </option>
-
-      </select>
-
-      <br><br>
-
-      <button id="generar-link">
-        GENERAR LINK
-      </button>
-
-      <br><br>
-
-      <textarea id="link-result"></textarea>
-
+    <!-- Generar link -->
+    <p class="section-title">Generar link personalizado</p>
+    <div class="info-box" style="margin-top:0;">
+      <div class="form-row">
+        <input id="nombre-input" placeholder="Nombre del invitado" autocomplete="off">
+        <select id="evento-select">
+          <option value="principal">Cumple principal — Viernes 21/05</option>
+          <option value="after">After — Sábado 22/05</option>
+        </select>
+        <button id="generar-link" style="height:52px;background:linear-gradient(135deg,#e8c98a,#c9a86a);color:#0a0806;border-radius:12px;font-size:11px;letter-spacing:2px;font-weight:600;font-family:'DM Sans',sans-serif;">
+          GENERAR LINK
+        </button>
+      </div>
+      <div id="link-container" style="display:none;margin-top:14px;">
+        <div class="link-row">
+          <input type="text" id="link-result" class="link-output" readonly>
+          <button class="copy-btn" id="copy-btn">COPIAR</button>
+        </div>
+      </div>
     </div>
 
-    <button
-      id="excel-btn"
-      style="margin-top:30px;width:100%;"
-    >
-      EXPORTAR EXCEL
-    </button>
+    <hr class="section-divider">
 
-    <div
-      id="respuestas"
-      style="margin-top:40px;"
-    ></div>
+    <!-- Respuestas -->
+    <div class="responses-header">
+      <p class="section-title" style="margin-bottom:0;">Respuestas</p>
+      <div class="filter-tabs">
+        <button class="filter-tab active" data-filter="todos">TODOS</button>
+        <button class="filter-tab" data-filter="principal">CUMPLE</button>
+        <button class="filter-tab" data-filter="after">AFTER</button>
+      </div>
+    </div>
+
+    <div id="respuestas">
+      <div class="empty-state">Cargando respuestas...</div>
+    </div>
 
   </div>
-
 </div>
+
+<script>
+  // Particles (same as index)
+  (function () {
+    const canvas = document.getElementById('particles-canvas');
+    const ctx = canvas.getContext('2d');
+    let particles = [];
+    function resize() { canvas.width = window.innerWidth; canvas.height = window.innerHeight; }
+    resize(); window.addEventListener('resize', resize);
+    for (let i = 0; i < 40; i++) {
+      particles.push({ x: Math.random()*window.innerWidth, y: Math.random()*window.innerHeight, r: Math.random()*1+.3, dx: (Math.random()-.5)*.3, dy: -Math.random()*.3-.1, alpha: Math.random()*.4+.1 });
+    }
+    function draw() {
+      ctx.clearRect(0,0,canvas.width,canvas.height);
+      particles.forEach(p => {
+        ctx.beginPath(); ctx.arc(p.x,p.y,p.r,0,Math.PI*2);
+        ctx.fillStyle=`rgba(201,168,106,${p.alpha})`; ctx.fill();
+        p.x+=p.dx; p.y+=p.dy;
+        if(p.y<-5){p.y=canvas.height+5;p.x=Math.random()*canvas.width;}
+        if(p.x<-5)p.x=canvas.width+5; if(p.x>canvas.width+5)p.x=-5;
+      });
+      requestAnimationFrame(draw);
+    }
+    draw();
+  })();
+</script>
 
 <script type="module" src="admin.js"></script>
 
