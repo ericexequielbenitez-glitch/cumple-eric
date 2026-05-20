@@ -1,111 +1,103 @@
 <!DOCTYPE html>
 <html lang="es">
 <head>
-  <meta charset="UTF-8" />
-  <title>Admin – Invitación Premium</title>
-  <meta name="viewport" content="width=device-width, initial-scale=1" />
-  <link rel="stylesheet" href="style.css" />
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Admin</title>
+
+  <link rel="stylesheet" href="styles.css">
+
+  <script src="https://cdn.sheetjs.com/xlsx-0.20.2/package/dist/xlsx.full.min.js"></script>
 </head>
+<body>
 
-<body class="theme-dark admin-layout">
+<div class="container">
 
-  <main class="admin-wrapper">
+  <div class="card" style="max-width:900px;">
 
-    <!-- PANEL IZQUIERDO -->
-    <section class="admin-left">
+    <h1 style="font-size:48px;">
+      PANEL ADMIN
+    </h1>
 
-      <h1 class="admin-title">Panel de eventos</h1>
-      <p class="admin-subtitle">Crear, editar y visualizar tu invitación en vivo.</p>
+    <div class="countdown" style="margin-top:30px;">
 
-      <!-- FORMULARIO -->
-      <div class="admin-section">
-        <h2 class="section-title">Datos del evento</h2>
-
-        <form id="event-form" class="form-grid">
-
-          <div class="form-group">
-            <label>ID / slug</label>
-            <input id="event-id" type="text" placeholder="cumple-eric" required />
-          </div>
-
-          <div class="form-group">
-            <label>Título</label>
-            <input id="event-title-input" type="text" placeholder="Te invito a festejar mis 26" required />
-          </div>
-
-          <div class="form-group">
-            <label>Frase elegante</label>
-            <input id="event-phrase-input" type="text" placeholder="Una noche para celebrar juntos." required />
-          </div>
-
-          <div class="form-group">
-            <label>Fecha</label>
-            <input id="event-date-input" type="date" required />
-          </div>
-
-          <div class="form-group">
-            <label>Horario</label>
-            <input id="event-time-input" type="time" required />
-          </div>
-
-          <div class="form-group">
-            <label>Dirección</label>
-            <input id="event-address-input" type="text" placeholder="Bar Bricks – Corrientes 366" required />
-          </div>
-
-          <div class="form-group">
-            <label>Google Maps (opcional)</label>
-            <input id="event-maps-input" type="url" placeholder="https://maps.google.com/..." />
-          </div>
-
-          <div class="form-actions">
-            <button type="submit" class="btn btn-primary">Guardar evento</button>
-            <button type="button" id="btn-new-event" class="btn btn-outline">Nuevo</button>
-          </div>
-
-        </form>
+      <div>
+        <strong id="total">0</strong>
+        <span>Total</span>
       </div>
 
-      <!-- LINKS -->
-      <div class="admin-section">
-        <h2 class="section-title">Links personalizados</h2>
-
-        <div class="form-grid">
-          <div class="form-group">
-            <label>Evento</label>
-            <select id="link-event-select"></select>
-          </div>
-
-          <div class="form-group">
-            <label>Nombre invitado</label>
-            <input id="link-name-input" type="text" placeholder="Juan" />
-          </div>
-
-          <div class="form-group">
-            <label>Link generado</label>
-            <input id="generated-link" type="text" readonly />
-          </div>
-
-          <div class="form-actions">
-            <button id="btn-generate-link" class="btn btn-primary">Generar link</button>
-            <button id="btn-copy-link" class="btn btn-outline">Copiar</button>
-            <span id="link-status" class="status"></span>
-          </div>
-        </div>
+      <div>
+        <strong id="asisten">0</strong>
+        <span>Asisten</span>
       </div>
 
-    </section>
+      <div>
+        <strong id="no-asisten">0</strong>
+        <span>No asisten</span>
+      </div>
 
-    <!-- PANEL DERECHO (PREVIEW) -->
-    <section class="admin-right">
-      <h2 class="section-title">Vista previa en vivo</h2>
+    </div>
 
-      <iframe id="preview-frame" class="preview-frame" src="index.html"></iframe>
+    <div class="info-box" style="margin-top:40px;">
 
-    </section>
+      <h3>
+        Generar link personalizado
+      </h3>
 
-  </main>
+      <br>
 
-  <script src="admin.js"></script>
+      <input
+        id="nombre-input"
+        placeholder="Nombre invitado"
+        style="width:100%;height:54px;border-radius:12px;padding:15px;background:#0e0e0e;color:white;border:none;"
+      >
+
+      <br><br>
+
+      <select
+        id="evento-select"
+        style="width:100%;height:54px;border-radius:12px;padding:15px;background:#0e0e0e;color:white;border:none;"
+      >
+
+        <option value="principal">
+          Cumple principal
+        </option>
+
+        <option value="after">
+          After
+        </option>
+
+      </select>
+
+      <br><br>
+
+      <button id="generar-link">
+        GENERAR LINK
+      </button>
+
+      <br><br>
+
+      <textarea id="link-result"></textarea>
+
+    </div>
+
+    <button
+      id="excel-btn"
+      style="margin-top:30px;width:100%;"
+    >
+      EXPORTAR EXCEL
+    </button>
+
+    <div
+      id="respuestas"
+      style="margin-top:40px;"
+    ></div>
+
+  </div>
+
+</div>
+
+<script type="module" src="admin.js"></script>
+
 </body>
 </html>
