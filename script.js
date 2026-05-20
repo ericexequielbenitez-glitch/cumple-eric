@@ -6,12 +6,12 @@ import {
 } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-firestore.js";
 
 const firebaseConfig = {
-  apiKey: "PEGA_TU_API_KEY",
-  authDomain: "PEGA_TU_AUTH_DOMAIN",
-  projectId: "PEGA_TU_PROJECT_ID",
-  storageBucket: "PEGA_TU_STORAGE_BUCKET",
-  messagingSenderId: "PEGA_TU_SENDER_ID",
-  appId: "PEGA_TU_APP_ID"
+  apiKey: "AIzaSyBNj2P1En2CJwkOHYBD4ipYeOnDBc7no1w",
+  authDomain: "cumpleeric.firebaseapp.com",
+  projectId: "cumpleeric",
+  storageBucket: "cumpleeric.firebasestorage.app",
+  messagingSenderId: "279643487809",
+  appId: "1:279643487809:web:caa2e7c9a0dee2ba3a90c0"
 };
 
 const app = initializeApp(firebaseConfig);
