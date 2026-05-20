@@ -1,434 +1,56 @@
-<!DOCTYPE html>
-<html lang="es">
-<head>
-<meta charset="UTF-8" />
-<meta name="viewport" content="width=device-width, initial-scale=1.0" />
-
-<title>Invitación</title>
-
-<link rel="preconnect" href="https://fonts.googleapis.com" />
-<link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600&display=swap" rel="stylesheet" />
-
-<style>
-  /* ───────── RESET ───────── */
-  *, *::before, *::after {
-    box-sizing: border-box;
-    margin: 0;
-    padding: 0;
-  }
-
-  :root {
-    --bg: #0f0f10;
-    --card: #18191b;
-    --text: #f3f3f3;
-    --muted: #8e8e8e;
-    --accent: #c9a46b;
-    --line: rgba(201,164,107,0.18);
-  }
-
-  html, body {
-    min-height: 100vh;
-    background: var(--bg);
-    font-family: 'Inter', sans-serif;
-    color: var(--text);
-  }
-
-  body {
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    padding: 2rem 1rem;
-  }
-
-  /* ───────── CARD ───────── */
-  .card {
-    width: 100%;
-    max-width: 430px;
-    background: var(--card);
-    border: 1px solid var(--line);
-    border-radius: 18px;
-    padding: 3rem 2rem;
-    box-shadow:
-      0 20px 60px rgba(0,0,0,0.45),
-      inset 0 1px 0 rgba(255,255,255,0.03);
-  }
-
-  /* ───────── TYPO ───────── */
-  .eyebrow {
-    text-align: center;
-    font-size: 11px;
-    letter-spacing: 4px;
-    text-transform: uppercase;
-    color: var(--accent);
-    margin-bottom: 1rem;
-  }
-
-  .guest-name {
-    text-align: center;
-    font-size: 2rem;
-    font-weight: 500;
-    letter-spacing: 1px;
-    text-transform: uppercase;
-    margin-bottom: 1.5rem;
-  }
-
-  .divider {
-    width: 50px;
-    height: 2px;
-    background: var(--accent);
-    margin: 0 auto 2rem;
-    opacity: 0.7;
-  }
-
-  .event-title {
-    text-align: center;
-    font-size: 1.6rem;
-    font-weight: 300;
-    letter-spacing: 3px;
-    text-transform: uppercase;
-    margin-bottom: 2rem;
-    line-height: 1.4;
-  }
-
-  /* ───────── INFO ───────── */
-  .info-block {
-    border-top: 1px solid var(--line);
-    border-bottom: 1px solid var(--line);
-    padding: 1.5rem 0;
-    margin-bottom: 2rem;
-  }
-
-  .info-row {
-    display: flex;
-    gap: 1rem;
-    margin-bottom: 1rem;
-  }
-
-  .info-row:last-child {
-    margin-bottom: 0;
-  }
-
-  .info-label {
-    min-width: 60px;
-    font-size: 10px;
-    letter-spacing: 2px;
-    text-transform: uppercase;
-    color: var(--accent);
-    padding-top: 3px;
-  }
-
-  .info-value {
-    color: var(--text);
-    font-size: 14px;
-    line-height: 1.6;
-    font-weight: 300;
-  }
-
-  /* ───────── RSVP ───────── */
-  .rsvp-label {
-    text-align: center;
-    font-size: 11px;
-    letter-spacing: 3px;
-    text-transform: uppercase;
-    color: var(--muted);
-    margin-bottom: 1rem;
-  }
-
-  .rsvp-buttons {
-    display: grid;
-    grid-template-columns: 1fr 1fr;
-    gap: 12px;
-    margin-bottom: 1rem;
-  }
-
-  .btn-rsvp {
-    padding: 0.9rem;
-    background: transparent;
-    border: 1px solid #2e2e2e;
-    color: var(--text);
-    font-family: inherit;
-    font-size: 11px;
-    letter-spacing: 2px;
-    text-transform: uppercase;
-    border-radius: 10px;
-    cursor: pointer;
-    transition: all 0.2s ease;
-  }
-
-  .btn-rsvp:hover {
-    border-color: var(--accent);
-    color: var(--accent);
-  }
-
-  .btn-rsvp.selected-yes {
-    background: var(--accent);
-    border-color: var(--accent);
-    color: #111;
-    font-weight: 600;
-  }
-
-  .btn-rsvp.selected-no {
-    background: #2a2a2a;
-    border-color: #2a2a2a;
-  }
-
-  textarea {
-    width: 100%;
-    height: 80px;
-    resize: none;
-    background: transparent;
-    border: 1px solid #2e2e2e;
-    border-radius: 10px;
-    padding: 1rem;
-    color: var(--text);
-    font-family: inherit;
-    font-size: 14px;
-    margin-bottom: 1rem;
-    outline: none;
-    transition: border-color 0.2s;
-  }
-
-  textarea:focus {
-    border-color: var(--accent);
-  }
-
-  textarea::placeholder {
-    color: #666;
-  }
-
-  .btn-submit {
-    width: 100%;
-    padding: 1rem;
-    border: none;
-    border-radius: 10px;
-    background: var(--accent);
-    color: #111;
-    font-family: inherit;
-    font-size: 11px;
-    font-weight: 600;
-    letter-spacing: 3px;
-    text-transform: uppercase;
-    cursor: pointer;
-    transition: opacity 0.2s;
-  }
-
-  .btn-submit:hover {
-    opacity: 0.9;
-  }
-
-  .btn-submit:disabled {
-    opacity: 0.4;
-    cursor: not-allowed;
-  }
-
-  /* ───────── STATES ───────── */
-  .msg-success,
-  .msg-error {
-    display: none;
-    text-align: center;
-    padding: 1rem;
-    border-radius: 10px;
-    font-size: 13px;
-    margin-bottom: 1rem;
-  }
-
-  .msg-success {
-    background: rgba(80,140,90,0.15);
-    color: #8ed49a;
-  }
-
-  .msg-error {
-    background: rgba(170,70,70,0.15);
-    color: #ff9b9b;
-  }
-
-  .footer-note {
-    text-align: center;
-    margin-top: 1.5rem;
-    font-size: 11px;
-    letter-spacing: 2px;
-    color: #555;
-    text-transform: uppercase;
-  }
-
-  @media (max-width: 480px) {
-    .card {
-      padding: 2.5rem 1.5rem;
-    }
-
-    .guest-name {
-      font-size: 1.7rem;
-    }
-
-    .event-title {
-      font-size: 1.3rem;
-    }
-  }
-</style>
-</head>
-
-<body>
-
-<div class="card">
-
-  <p class="eyebrow">Estás invitado</p>
-
-  <h1 class="guest-name" id="guest-name">—</h1>
-
-  <div class="divider"></div>
-
-  <!-- PERSONALIZAR -->
-  <h2 class="event-title">
-    Valentina · 27
-  </h2>
-
-  <div class="info-block">
-
-    <!-- PERSONALIZAR -->
-    <div class="info-row">
-      <span class="info-label">Fecha</span>
-      <span class="info-value">Sábado 12 de julio · 2025</span>
-    </div>
-
-    <div class="info-row">
-      <span class="info-label">Hora</span>
-      <span class="info-value">21:00 hs</span>
-    </div>
-
-    <div class="info-row">
-      <span class="info-label">Lugar</span>
-      <span class="info-value">
-        Palermo Soho · Buenos Aires<br>
-        Dirección exacta por confirmar
-      </span>
-    </div>
-
-  </div>
-
-  <!-- RSVP -->
-  <p class="rsvp-label">Confirmación de asistencia</p>
-
-  <div class="rsvp-buttons">
-    <button class="btn-rsvp" id="btn-yes" onclick="selectRSVP(true)">
-      Asistiré
-    </button>
-
-    <button class="btn-rsvp" id="btn-no" onclick="selectRSVP(false)">
-      No podré
-    </button>
-  </div>
-
-  <textarea
-    id="mensaje"
-    placeholder="Mensaje opcional..."
-  ></textarea>
-
-  <div class="msg-success" id="msg-ok">
-    Confirmación enviada correctamente.
-  </div>
-
-  <div class="msg-error" id="msg-err">
-    Ocurrió un error.
-  </div>
-
-  <button
-    class="btn-submit"
-    id="btn-submit"
-    onclick="enviarRSVP()"
-    disabled
-  >
-    Confirmar asistencia
-  </button>
-
-  <p class="footer-note">
-    RSVP
-  </p>
-
-</div>
-
 <script>
-// ───────── GOOGLE APPS SCRIPT ─────────
-const SCRIPT_URL = "https://script.google.com/macros/s/TU_ID_AQUI/exec";
 
-let selectedAsiste = null;
+const SCRIPT_URL =
+  "https://script.google.com/macros/s/AKfycbz8pxaG0C_kzEVMLN60azCXl7xobPucjsTZEl2J1bVqADM2p8eKVDd9HBRwBSvmKnwfpA/exec";
 
-// Leer nombre desde URL
 const params = new URLSearchParams(window.location.search);
 
-const nombre =
-  params.get("nombre") ||
-  params.get("n") ||
-  "";
+const invitado = params.get("nombre") || "Invitado";
 
-if (nombre) {
-  document.getElementById("guest-name").textContent = nombre;
-  document.title = `Invitación para ${nombre}`;
-}
+let asistira = true;
 
-// Selección RSVP
-function selectRSVP(asiste) {
+const btnSi = document.getElementById("btn-si");
+const btnNo = document.getElementById("btn-no");
 
-  selectedAsiste = asiste;
+btnSi.addEventListener("click", () => {
+  asistira = true;
+});
 
-  document.getElementById("btn-yes").className =
-    "btn-rsvp" + (asiste ? " selected-yes" : "");
+btnNo.addEventListener("click", () => {
+  asistira = false;
+});
 
-  document.getElementById("btn-no").className =
-    "btn-rsvp" + (!asiste ? " selected-no" : "");
+document
+  .getElementById("confirmar-btn")
+  .addEventListener("click", async () => {
 
-  document.getElementById("btn-submit").disabled = false;
-}
+    const mensaje =
+      document.getElementById("mensaje").value;
 
-// Enviar RSVP
-async function enviarRSVP() {
+    try {
 
-  if (selectedAsiste === null) return;
+      const response = await fetch(SCRIPT_URL, {
+        method: "POST",
+        body: JSON.stringify({
+          nombre: invitado,
+          asistencia: asistira ? "Asiste" : "No asiste",
+          mensaje: mensaje
+        })
+      });
 
-  const btn = document.getElementById("btn-submit");
+      const data = await response.json();
 
-  btn.disabled = true;
-  btn.textContent = "Enviando...";
+      alert("Confirmación enviada ✨");
 
-  const msgOk  = document.getElementById("msg-ok");
-  const msgErr = document.getElementById("msg-err");
+      console.log(data);
 
-  msgOk.style.display = "none";
-  msgErr.style.display = "none";
+    } catch (error) {
 
-  try {
+      console.error(error);
 
-    const res = await fetch(SCRIPT_URL, {
-      method: "POST",
+      alert("Error al enviar confirmación");
 
-      body: JSON.stringify({
-        action: "rsvp",
-        nombre: nombre || "Invitado",
-        asiste: selectedAsiste,
-        mensaje: document.getElementById("mensaje").value
-      })
-    });
-
-    const data = await res.json();
-
-    if (data.ok) {
-
-      msgOk.style.display = "block";
-      btn.textContent = "Confirmado";
-
-    } else {
-      throw new Error(data.error);
     }
 
-  } catch (e) {
-
-    msgErr.style.display = "block";
-    msgErr.textContent = "Error: " + e.message;
-
-    btn.disabled = false;
-    btn.textContent = "Confirmar asistencia";
-  }
-}
+});
 </script>
-
-</body>
-</html>
