@@ -1,79 +1,150 @@
-// CONFIG
-const APPS_SCRIPT_URL =
-  "https://script.google.com/macros/s/AKfycbz8pxaG0C_kzEVMLN60azCXl7xobPucjsTZEl2J1bVqADM2p8eKVDd9HBRwBSvmKnwfpA/exec";
+import { initializeApp } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-app.js";
 
-// Helpers
-function getUrlParams() {
-  return new URLSearchParams(window.location.search);
-}
+import {
+  getFirestore,
+  collection,
+  addDoc
+} from "https://www.gstatic.com/firebasejs/10.12.2/firebase-firestore.js";
 
-function decodeEventFromParam() {
-  const params = getUrlParams();
-  const encoded = params.get("edata");
-  if (!encoded) return null;
-  try {
-    return JSON.parse(atob(encoded));
-  } catch {
-    return null;
+const firebaseConfig = {
+  apiKey: "PEGA_TU_API_KEY",
+  authDomain: "PEGA_TU_AUTH_DOMAIN",
+  projectId: "PEGA_TU_PROJECT_ID",
+  storageBucket: "PEGA_TU_STORAGE_BUCKET",
+  messagingSenderId: "PEGA_TU_SENDER_ID",
+  appId: "PEGA_TU_APP_ID"
+};
+
+const app = initializeApp(firebaseConfig);
+const db = getFirestore(app);
+
+const params = new URLSearchParams(window.location.search);
+
+const invitado =
+params.get("nombre") || "Invitado";
+
+const evento =
+params.get("evento") || "principal";
+
+const eventos = {
+
+  principal:{
+    fechaTexto:"Viernes 21 de Mayo, 2026",
+    hora:"21:30 hs",
+    direccion:"Bar Bricks · Corrientes 366",
+    maps:"https://maps.google.com",
+    fechaCountdown:"2026-05-21T21:30:00"
+  },
+
+  after:{
+    fechaTexto:"Sábado 22 de Mayo, 2026",
+    hora:"00:30 hs",
+    direccion:"After privado",
+    maps:"https://maps.google.com",
+    fechaCountdown:"2026-05-22T00:30:00"
   }
+};
+
+const data = eventos[evento];
+
+if(data){
+
+  document.getElementById("fecha")
+  .textContent = data.fechaTexto;
+
+  document.getElementById("hora")
+  .textContent = data.hora;
+
+  document.getElementById("maps-link")
+  .textContent = data.direccion;
+
+  document.getElementById("maps-link")
+  .href = data.maps;
 }
 
-function loadEventsFromStorage() {
-  try {
-    return JSON.parse(localStorage.getItem("events")) || [];
-  } catch {
-    return [];
+document.getElementById("guest-name")
+.textContent = invitado;
+
+let asistencia = true;
+
+const btnSi = document.getElementById("btn-si");
+const btnNo = document.getElementById("btn-no");
+
+btnSi.addEventListener("click",()=>{
+
+  asistencia = true;
+
+  btnSi.classList.add("active");
+  btnNo.classList.remove("active");
+
+});
+
+btnNo.addEventListener("click",()=>{
+
+  asistencia = false;
+
+  btnNo.classList.add("active");
+  btnSi.classList.remove("active");
+
+});
+
+const confirmarBtn =
+document.getElementById("confirmar-btn");
+
+confirmarBtn.addEventListener("click",async()=>{
+
+  const mensaje =
+  document.getElementById("mensaje").value;
+
+  try{
+
+    confirmarBtn.innerText = "ENVIANDO...";
+
+    await addDoc(collection(db,"respuestas"),{
+
+      nombre:invitado,
+      evento,
+      asistencia,
+      mensaje,
+      fecha:new Date().toISOString()
+
+    });
+
+    confirmarBtn.innerText = "CONFIRMADO ✓";
+
+    alert("Confirmación enviada ✨");
+
+  }catch(err){
+
+    console.error(err);
+
+    confirmarBtn.innerText = "ERROR";
+
+    alert("Error al enviar");
   }
+});
+
+const targetDate = new Date(data.fechaCountdown);
+
+function updateCountdown(){
+
+  const now = new Date();
+
+  const diff = targetDate - now;
+
+  if(diff <= 0) return;
+
+  const days = Math.floor(diff / (1000 * 60 * 60 * 24));
+
+  const hours = Math.floor((diff / (1000 * 60 * 60)) % 24);
+
+  const minutes = Math.floor((diff / (1000 * 60)) % 60);
+
+  document.getElementById("dias").textContent = days;
+  document.getElementById("horas").textContent = hours;
+  document.getElementById("minutos").textContent = minutes;
 }
 
-function findEventById(id) {
-  return loadEventsFromStorage().find(e => e.id === id) || null;
-}
+updateCountdown();
 
-function buildMapsLink(address, customUrl) {
-  if (customUrl) return customUrl;
-  return `https://www.google.com/maps/search/?api=1&query=${encodeURIComponent(address)}`;
-}
-
-function buildDateTime(event) {
-  if (!event.date || !event.time) return null;
-  const [y, m, d] = event.date.split("-").map(Number);
-  const [hh, mm] = event.time.split(":").map(Number);
-  return new Date(y, m - 1, d, hh, mm, 0);
-}
-
-// DOM
-const titleEl = document.getElementById("event-title");
-const phraseEl = document.getElementById("event-phrase");
-const dateEl = document.getElementById("event-date");
-const timeEl = document.getElementById("event-time");
-const addressEl = document.getElementById("event-address");
-
-const cdDays = document.getElementById("cd-days");
-const cdHours = document.getElementById("cd-hours");
-const cdMinutes = document.getElementById("cd-minutes");
-const cdSeconds = document.getElementById("cd-seconds");
-
-let countdownInterval = null;
-
-// INIT
-function initEvent() {
-  const params = getUrlParams();
-  const eventoId = params.get("evento");
-
-  // 1) Intentar cargar desde edata
-  let eventData = decodeEventFromParam();
-
-  // 2) Si no hay edata, cargar desde localStorage
-  if (!eventData && eventoId) {
-    eventData = findEventById(eventoId);
-  }
-
-  // 3) Si no hay evento → mostrar error premium (NO modo poronga)
-  if (!eventData) {
-    document.body.classList.add("no-event");
-    return;
-  }
-
-  // 4) Cargar datos
-  titleEl.textContent =
+setInterval(updateCountdown,1000);
