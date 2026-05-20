@@ -104,7 +104,7 @@ document.querySelectorAll(".filter-tab").forEach(btn => {
 
 // ── Generar link ──
 const infoEventos = {
-  amigos:  { fecha: "viernes 21 de mayo", hora: "21:00 hs", lugar: "Bricks Coffee & Food, Corrientes 366" },
+  amigos:  { fecha: "Jueves 21 de mayo", hora: "21:00 hs", lugar: "Bricks Coffee & Food, Corrientes 366" },
   trabajo: { fecha: "viernes 22 de mayo", hora: "21:00 hs", lugar: "Bricks Coffee & Food, Corrientes 366" }
 };
 
