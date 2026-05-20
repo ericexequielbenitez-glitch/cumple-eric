@@ -1,535 +1,150 @@
 <!DOCTYPE html>
 <html lang="es">
 <head>
-<meta charset="UTF-8" />
-<meta name="viewport" content="width=device-width, initial-scale=1.0" />
-<title>Panel Admin — Invitaciones</title>
-<link rel="preconnect" href="https://fonts.googleapis.com" />
-<link href="https://fonts.googleapis.com/css2?family=Jost:wght@300;400;500&family=Cormorant+Garamond:ital,wght@0,400;1,300&display=swap" rel="stylesheet" />
-<style>
-  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
-
-  :root {
-    --cream: #f7f3ee;
-    --ink: #1a1714;
-    --ink-soft: #4a443e;
-    --gold: #b89060;
-    --gold-light: #e8d8bc;
-    --line: rgba(184,144,96,0.25);
-    --green: #4a7a40;
-    --green-bg: #edf5e8;
-    --red: #8b3a3a;
-    --red-bg: #f8eded;
-  }
-
-  html, body {
-    min-height: 100vh;
-    background: var(--cream);
-    font-family: 'Jost', sans-serif;
-    font-weight: 300;
-    color: var(--ink);
-  }
-
-  /* ── Login ── */
-  #login-screen {
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    min-height: 100vh;
-    padding: 2rem;
-  }
-
-  .login-box {
-    background: #fff;
-    border: 1px solid var(--gold-light);
-    padding: 3rem 2.5rem;
-    width: 100%;
-    max-width: 340px;
-    position: relative;
-  }
-  .login-box::before, .login-box::after,
-  .login-box .c-bl, .login-box .c-br {
-    content: '';
-    position: absolute;
-    width: 14px; height: 14px;
-    border-color: var(--gold);
-    border-style: solid;
-  }
-  .login-box::before { top:8px; left:8px;   border-width: 1px 0 0 1px; }
-  .login-box::after  { top:8px; right:8px;  border-width: 1px 1px 0 0; }
-  .login-box .c-bl   { bottom:8px; left:8px;  border-width: 0 0 1px 1px; }
-  .login-box .c-br   { bottom:8px; right:8px; border-width: 0 1px 1px 0; }
-
-  .login-eyebrow {
-    font-size: 9px;
-    letter-spacing: 3px;
-    text-transform: uppercase;
-    color: var(--gold);
-    text-align: center;
-    margin-bottom: 0.75rem;
-  }
-  .login-title {
-    font-family: 'Cormorant Garamond', serif;
-    font-size: 1.5rem;
-    font-style: italic;
-    text-align: center;
-    margin-bottom: 2rem;
-  }
-
-  input[type="password"] {
-    width: 100%;
-    border: 1px solid var(--gold-light);
-    background: transparent;
-    padding: 0.75rem 1rem;
-    font-family: 'Jost', sans-serif;
-    font-size: 14px;
-    font-weight: 300;
-    color: var(--ink);
-    outline: none;
-    text-align: center;
-    letter-spacing: 3px;
-    margin-bottom: 1rem;
-    transition: border-color 0.2s;
-  }
-  input[type="password"]:focus { border-color: var(--gold); }
-
-  .btn-gold {
-    width: 100%;
-    padding: 0.8rem;
-    background: var(--gold);
-    border: none;
-    color: #fff;
-    font-family: 'Jost', sans-serif;
-    font-size: 10px;
-    letter-spacing: 3px;
-    text-transform: uppercase;
-    cursor: pointer;
-    transition: opacity 0.2s;
-  }
-  .btn-gold:hover { opacity: 0.85; }
-
-  .login-error {
-    font-size: 12px;
-    color: var(--red);
-    text-align: center;
-    margin-top: 0.75rem;
-    display: none;
-  }
-
-  /* ── Dashboard ── */
-  #dashboard { display: none; }
-
-  header {
-    background: #fff;
-    border-bottom: 1px solid var(--line);
-    padding: 1.25rem 2rem;
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
-  }
-  .header-title {
-    font-family: 'Cormorant Garamond', serif;
-    font-size: 1.2rem;
-    font-style: italic;
-  }
-  .header-eyebrow {
-    font-size: 9px;
-    letter-spacing: 2px;
-    text-transform: uppercase;
-    color: var(--gold);
-    margin-bottom: 2px;
-  }
-
-  .btn-refresh {
-    padding: 0.5rem 1rem;
-    border: 1px solid var(--gold-light);
-    background: transparent;
-    font-family: 'Jost', sans-serif;
-    font-size: 10px;
-    letter-spacing: 2px;
-    text-transform: uppercase;
-    color: var(--gold);
-    cursor: pointer;
-    transition: all 0.2s;
-  }
-  .btn-refresh:hover { background: var(--gold); color: #fff; border-color: var(--gold); }
-
-  .main {
-    max-width: 900px;
-    margin: 0 auto;
-    padding: 2rem 1.5rem;
-  }
-
-  /* ── Stats ── */
-  .stats-grid {
-    display: grid;
-    grid-template-columns: repeat(3, 1fr);
-    gap: 12px;
-    margin-bottom: 2rem;
-  }
-
-  .stat-card {
-    background: #fff;
-    border: 1px solid var(--gold-light);
-    padding: 1.25rem 1.5rem;
-    text-align: center;
-  }
-  .stat-num {
-    font-family: 'Cormorant Garamond', serif;
-    font-size: 2.5rem;
-    font-weight: 400;
-    color: var(--ink);
-    line-height: 1;
-    margin-bottom: 0.4rem;
-  }
-  .stat-label {
-    font-size: 9px;
-    letter-spacing: 2px;
-    text-transform: uppercase;
-    color: var(--gold);
-  }
-
-  /* ── Generator ── */
-  .section-title {
-    font-size: 9px;
-    letter-spacing: 3px;
-    text-transform: uppercase;
-    color: var(--ink-soft);
-    margin-bottom: 1rem;
-    padding-bottom: 0.5rem;
-    border-bottom: 1px solid var(--line);
-  }
-
-  .generator-box {
-    background: #fff;
-    border: 1px solid var(--gold-light);
-    padding: 1.5rem;
-    margin-bottom: 2rem;
-  }
-  .gen-row {
-    display: flex;
-    gap: 10px;
-    align-items: stretch;
-  }
-  .gen-input {
-    flex: 1;
-    border: 1px solid var(--gold-light);
-    background: transparent;
-    padding: 0.65rem 1rem;
-    font-family: 'Jost', sans-serif;
-    font-size: 13px;
-    font-weight: 300;
-    color: var(--ink);
-    outline: none;
-    transition: border-color 0.2s;
-  }
-  .gen-input:focus { border-color: var(--gold); }
-
-  .btn-gen {
-    padding: 0 1.25rem;
-    background: var(--ink);
-    border: none;
-    color: #fff;
-    font-family: 'Jost', sans-serif;
-    font-size: 10px;
-    letter-spacing: 2px;
-    text-transform: uppercase;
-    cursor: pointer;
-    white-space: nowrap;
-    transition: opacity 0.2s;
-  }
-  .btn-gen:hover { opacity: 0.75; }
-
-  .gen-result {
-    display: none;
-    margin-top: 1rem;
-    padding: 0.85rem 1rem;
-    background: var(--cream);
-    border: 1px solid var(--gold-light);
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
-    gap: 10px;
-    flex-wrap: wrap;
-  }
-  .gen-url {
-    font-family: 'Jost', sans-serif;
-    font-size: 12px;
-    color: var(--ink-soft);
-    word-break: break-all;
-    flex: 1;
-  }
-  .btn-copy {
-    padding: 0.4rem 0.85rem;
-    border: 1px solid var(--gold);
-    background: transparent;
-    color: var(--gold);
-    font-family: 'Jost', sans-serif;
-    font-size: 10px;
-    letter-spacing: 2px;
-    text-transform: uppercase;
-    cursor: pointer;
-    white-space: nowrap;
-    transition: all 0.2s;
-    flex-shrink: 0;
-  }
-  .btn-copy:hover { background: var(--gold); color: #fff; }
-  .copy-ok { font-size: 11px; color: var(--green); display: none; }
-
-  /* ── Table ── */
-  .table-wrap {
-    background: #fff;
-    border: 1px solid var(--gold-light);
-    overflow-x: auto;
-  }
-
-  table {
-    width: 100%;
-    border-collapse: collapse;
-    font-size: 13px;
-  }
-  thead tr {
-    border-bottom: 1px solid var(--gold-light);
-  }
-  th {
-    font-size: 9px;
-    letter-spacing: 2px;
-    text-transform: uppercase;
-    color: var(--gold);
-    font-weight: 400;
-    padding: 1rem 1.25rem;
-    text-align: left;
-    white-space: nowrap;
-  }
-  td {
-    padding: 0.85rem 1.25rem;
-    border-bottom: 1px solid var(--line);
-    color: var(--ink-soft);
-    vertical-align: middle;
-  }
-  tr:last-child td { border-bottom: none; }
-  tr:hover td { background: #faf8f5; }
-
-  .td-name {
-    font-family: 'Cormorant Garamond', serif;
-    font-size: 15px;
-    font-style: italic;
-    color: var(--ink);
-  }
-  .badge {
-    display: inline-block;
-    padding: 3px 10px;
-    font-size: 10px;
-    letter-spacing: 1px;
-    border-radius: 2px;
-    font-family: 'Jost', sans-serif;
-  }
-  .badge-yes { background: var(--green-bg); color: var(--green); }
-  .badge-no  { background: var(--red-bg);   color: var(--red); }
-  .badge-pending { background: #f0f0e8; color: #888; }
-
-  .empty-state {
-    text-align: center;
-    padding: 3rem;
-    color: var(--gold);
-    font-family: 'Cormorant Garamond', serif;
-    font-size: 1.1rem;
-    font-style: italic;
-  }
-  .loading { color: var(--gold); text-align: center; padding: 2rem; font-size: 13px; letter-spacing: 2px; }
-</style>
+  <meta charset="UTF-8" />
+  <title>Admin Invitaciones</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <link rel="stylesheet" href="style.css" />
 </head>
-<body>
+<body class="theme-dark">
+  <main class="admin-container">
+    <section class="card admin-card">
+      <header class="card-header">
+        <h1>Panel de eventos</h1>
+        <p class="event-phrase">Crear, editar y gestionar invitaciones.</p>
+      </header>
 
-<!-- LOGIN -->
-<div id="login-screen">
-  <div class="login-box">
-    <div class="c-bl"></div><div class="c-br"></div>
-    <p class="login-eyebrow">Acceso restringido</p>
-    <h1 class="login-title">Panel de invitaciones</h1>
-    <input type="password" id="password-input" placeholder="Contraseña" onkeydown="if(event.key==='Enter')login()" />
-    <button class="btn-gold" onclick="login()">Ingresar</button>
-    <p class="login-error" id="login-error">Contraseña incorrecta</p>
-  </div>
-</div>
+      <section class="card-body admin-grid">
+        <!-- Formulario de evento -->
+        <div class="admin-section">
+          <h2 class="section-title">Evento</h2>
+          <form id="event-form" class="form-grid">
+            <div class="form-group">
+              <label for="event-id">ID / slug</label>
+              <input id="event-id" type="text" placeholder="ej: after" required />
+              <small>Se usa en ?evento=ID</small>
+            </div>
 
-<!-- DASHBOARD -->
-<div id="dashboard">
-  <header>
-    <div>
-      <p class="header-eyebrow">Panel admin</p>
-      <p class="header-title">Gestión de invitaciones</p>
-    </div>
-    <button class="btn-refresh" onclick="cargarRSVPs()">↻ Actualizar</button>
-  </header>
+            <div class="form-group">
+              <label for="event-title-input">Título</label>
+              <input id="event-title-input" type="text" placeholder="Ej: After Birthday" required />
+            </div>
 
-  <div class="main">
+            <div class="form-group">
+              <label for="event-phrase-input">Frase elegante</label>
+              <input id="event-phrase-input" type="text" placeholder="Una noche para celebrar." required />
+            </div>
 
-    <!-- Stats -->
-    <div class="stats-grid">
-      <div class="stat-card">
-        <div class="stat-num" id="stat-total">—</div>
-        <div class="stat-label">Total invitados</div>
-      </div>
-      <div class="stat-card">
-        <div class="stat-num" id="stat-yes" style="color: var(--green)">—</div>
-        <div class="stat-label">Confirman asistencia</div>
-      </div>
-      <div class="stat-card">
-        <div class="stat-num" id="stat-no" style="color: var(--red)">—</div>
-        <div class="stat-label">No asisten</div>
-      </div>
-    </div>
+            <div class="form-group">
+              <label for="event-date-input">Fecha</label>
+              <input id="event-date-input" type="date" required />
+            </div>
 
-    <!-- Generador de links -->
-    <div class="generator-box">
-      <p class="section-title" style="margin-bottom:1rem;">Generar link personalizado</p>
-      <div class="gen-row">
-        <input class="gen-input" id="gen-nombre" type="text" placeholder="Nombre del invitado…" oninput="generarLink()" />
-        <button class="btn-gen" onclick="copiarLink()">Copiar link</button>
-      </div>
-      <div class="gen-result" id="gen-result" style="display:none">
-        <span class="gen-url" id="gen-url"></span>
-        <span class="copy-ok" id="copy-ok">¡Copiado!</span>
-      </div>
-    </div>
+            <div class="form-group">
+              <label for="event-time-input">Horario</label>
+              <input id="event-time-input" type="time" required />
+            </div>
 
-    <!-- Tabla -->
-    <p class="section-title">Respuestas recibidas</p>
-    <div class="table-wrap">
-      <div class="loading" id="loading">Cargando…</div>
-      <table id="rsvp-table" style="display:none">
-        <thead>
-          <tr>
-            <th>Invitado/a</th>
-            <th>Estado</th>
-            <th>Mensaje</th>
-            <th>Fecha</th>
-          </tr>
-        </thead>
-        <tbody id="rsvp-body"></tbody>
-      </table>
-      <div class="empty-state" id="empty-state" style="display:none">
-        Aún no hay respuestas
-      </div>
-    </div>
+            <div class="form-group">
+              <label for="event-address-input">Dirección</label>
+              <input id="event-address-input" type="text" placeholder="Calle, número, ciudad" required />
+            </div>
 
-  </div>
-</div>
+            <div class="form-group">
+              <label for="event-maps-input">Google Maps (opcional)</label>
+              <input id="event-maps-input" type="url" placeholder="URL de Google Maps" />
+              <small>Si se deja vacío, se genera con la dirección.</small>
+            </div>
 
-<script>
-// ╔══════════════════════════════════════════════════════╗
-// ║  REEMPLAZAR con la URL de tu Google Apps Script      ║
-// ╚══════════════════════════════════════════════════════╝
-const SCRIPT_URL = "https://script.google.com/macros/s/TU_ID_AQUI/exec";
+            <div class="form-actions">
+              <button type="submit" class="btn btn-primary" id="btn-save-event">
+                Guardar evento
+              </button>
+              <button type="button" class="btn btn-outline" id="btn-new-event">
+                Nuevo
+              </button>
+            </div>
+          </form>
+        </div>
 
-// ╔══════════════════════════════════════════════════════╗
-// ║  URL base de tu GitHub Pages (con index.html)        ║
-// ╚══════════════════════════════════════════════════════╝
-const BASE_INVITE_URL = "https://TU-USUARIO.github.io/TU-REPO/";
+        <!-- Lista de eventos -->
+        <div class="admin-section">
+          <h2 class="section-title">Eventos guardados</h2>
+          <div class="event-list" id="event-list"></div>
+        </div>
 
-let storedPassword = "";
+        <!-- Links personalizados -->
+        <div class="admin-section">
+          <h2 class="section-title">Links personalizados</h2>
+          <div class="form-grid">
+            <div class="form-group">
+              <label for="link-event-select">Evento</label>
+              <select id="link-event-select"></select>
+            </div>
+            <div class="form-group">
+              <label for="link-name-input">Nombre invitado</label>
+              <input id="link-name-input" type="text" placeholder="Juan" />
+            </div>
+            <div class="form-group">
+              <label>Link generado</label>
+              <input id="generated-link" type="text" readonly />
+            </div>
+            <div class="form-actions">
+              <button type="button" class="btn btn-primary" id="btn-generate-link">
+                Generar link
+              </button>
+              <button type="button" class="btn btn-outline" id="btn-copy-link">
+                Copiar link
+              </button>
+              <span class="status" id="link-status"></span>
+            </div>
+          </div>
+        </div>
 
-function login() {
-  const pass = document.getElementById("password-input").value;
-  const err  = document.getElementById("login-error");
-  err.style.display = "none";
+        <!-- Asistentes -->
+        <div class="admin-section">
+          <h2 class="section-title">Asistencias</h2>
+          <div class="form-grid">
+            <div class="form-group">
+              <label for="att-event-select">Evento</label>
+              <select id="att-event-select"></select>
+            </div>
+            <div class="form-group">
+              <label for="att-filter-select">Filtro asistencia</label>
+              <select id="att-filter-select">
+                <option value="ALL">Todos</option>
+                <option value="SI">Asistirán</option>
+                <option value="NO">No podrán</option>
+              </select>
+            </div>
+            <div class="form-actions">
+              <button type="button" class="btn btn-primary" id="btn-load-attendees">
+                Cargar asistentes
+              </button>
+            </div>
+          </div>
 
-  // Validación rápida local (la clave real se verifica en el servidor)
-  if (!pass) { err.style.display = "block"; err.textContent = "Ingresá la contraseña"; return; }
+          <div class="table-wrapper">
+            <table class="table" id="attendees-table">
+              <thead>
+                <tr>
+                  <th>Fecha</th>
+                  <th>Evento</th>
+                  <th>Nombre</th>
+                  <th>Asistencia</th>
+                  <th>Mensaje</th>
+                </tr>
+              </thead>
+              <tbody></tbody>
+            </table>
+          </div>
 
-  storedPassword = pass;
-  document.getElementById("login-screen").style.display = "none";
-  document.getElementById("dashboard").style.display = "block";
-  cargarRSVPs();
-}
+          <p class="status" id="att-status"></p>
+        </div>
+      </section>
+    </section>
+  </main>
 
-async function cargarRSVPs() {
-  document.getElementById("loading").style.display = "block";
-  document.getElementById("rsvp-table").style.display = "none";
-  document.getElementById("empty-state").style.display = "none";
-
-  try {
-    const res  = await fetch(`${SCRIPT_URL}?action=list&password=${encodeURIComponent(storedPassword)}`);
-    const json = await res.json();
-
-    if (!json.ok) {
-      document.getElementById("loading").textContent = "Error: " + json.error;
-      return;
-    }
-
-    const data = json.data || [];
-    actualizarStats(data);
-    renderTabla(data);
-  } catch (e) {
-    document.getElementById("loading").textContent = "Error de red: " + e.message;
-  }
-}
-
-function actualizarStats(data) {
-  const total = data.length;
-  const yes   = data.filter(r => r.asiste && r.asiste.includes("Asiste")).length;
-  const no    = data.filter(r => r.asiste && r.asiste.includes("No")).length;
-  document.getElementById("stat-total").textContent = total;
-  document.getElementById("stat-yes").textContent   = yes;
-  document.getElementById("stat-no").textContent    = no;
-}
-
-function renderTabla(data) {
-  document.getElementById("loading").style.display = "none";
-
-  if (data.length === 0) {
-    document.getElementById("empty-state").style.display = "block";
-    return;
-  }
-
-  const tbody = document.getElementById("rsvp-body");
-  tbody.innerHTML = "";
-
-  data.forEach(r => {
-    const isYes = r.asiste && r.asiste.includes("Asiste") && !r.asiste.includes("No");
-    const isNo  = r.asiste && r.asiste.includes("No");
-    const badge = isYes
-      ? `<span class="badge badge-yes">Asiste</span>`
-      : isNo
-      ? `<span class="badge badge-no">No asiste</span>`
-      : `<span class="badge badge-pending">Pendiente</span>`;
-
-    tbody.innerHTML += `
-      <tr>
-        <td class="td-name">${r.nombre || "—"}</td>
-        <td>${badge}</td>
-        <td>${r.mensaje || "<span style='color:#ccc'>—</span>"}</td>
-        <td style="font-size:12px; color:#aaa; white-space:nowrap">${r.fecha || ""}</td>
-      </tr>`;
-  });
-
-  document.getElementById("rsvp-table").style.display = "table";
-}
-
-function generarLink() {
-  const nombre = document.getElementById("gen-nombre").value.trim();
-  const result = document.getElementById("gen-result");
-  const urlEl  = document.getElementById("gen-url");
-
-  if (!nombre) { result.style.display = "none"; return; }
-
-  const url = `${BASE_INVITE_URL}?nombre=${encodeURIComponent(nombre)}`;
-  urlEl.textContent = url;
-  result.style.display = "flex";
-}
-
-function copiarLink() {
-  const nombre = document.getElementById("gen-nombre").value.trim();
-  if (!nombre) return;
-
-  const url = `${BASE_INVITE_URL}?nombre=${encodeURIComponent(nombre)}`;
-  navigator.clipboard.writeText(url).then(() => {
-    const ok = document.getElementById("copy-ok");
-    ok.style.display = "inline";
-    setTimeout(() => ok.style.display = "none", 2000);
-  });
-}
-</script>
+  <script src="admin.js"></script>
 </body>
 </html>
