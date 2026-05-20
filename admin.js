@@ -3,7 +3,7 @@ import { initializeApp } from "https://www.gstatic.com/firebasejs/10.12.2/fireba
 import {
   getFirestore,
   collection,
-  addDoc
+  getDocs
 } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-firestore.js";
 
 const firebaseConfig = {
@@ -18,133 +18,132 @@ const firebaseConfig = {
 const app = initializeApp(firebaseConfig);
 const db = getFirestore(app);
 
-const params = new URLSearchParams(window.location.search);
+async function cargarRespuestas(){
 
-const invitado =
-params.get("nombre") || "Invitado";
+  const snapshot =
+  await getDocs(collection(db,"respuestas"));
 
-const evento =
-params.get("evento") || "principal";
+  const container =
+  document.getElementById("respuestas");
 
-const eventos = {
+  container.innerHTML = "";
 
-  principal:{
-    fechaTexto:"Viernes 21 de Mayo, 2026",
-    hora:"21:30 hs",
-    direccion:"Bar Bricks · Corrientes 366",
-    maps:"https://maps.google.com",
-    fechaCountdown:"2026-05-21T21:30:00"
-  },
+  let total = 0;
+  let asisten = 0;
+  let noAsisten = 0;
 
-  after:{
-    fechaTexto:"Sábado 22 de Mayo, 2026",
-    hora:"00:30 hs",
-    direccion:"After privado",
-    maps:"https://maps.google.com",
-    fechaCountdown:"2026-05-22T00:30:00"
-  }
-};
+  snapshot.forEach((doc)=>{
 
-const data = eventos[evento];
+    total++;
 
-if(data){
+    const data = doc.data();
 
-  document.getElementById("fecha")
-  .textContent = data.fechaTexto;
+    if(data.asistencia){
+      asisten++;
+    }else{
+      noAsisten++;
+    }
 
-  document.getElementById("hora")
-  .textContent = data.hora;
+    container.innerHTML += `
 
-  document.getElementById("maps-link")
-  .textContent = data.direccion;
+      <div
+        style="
+        background:#0f0f0f;
+        border:1px solid rgba(255,255,255,.06);
+        padding:20px;
+        border-radius:18px;
+        margin-bottom:15px;
+        "
+      >
 
-  document.getElementById("maps-link")
-  .href = data.maps;
+        <h3>${data.nombre}</h3>
+
+        <p style="margin-top:8px;">
+          Evento: ${data.evento}
+        </p>
+
+        <p style="margin-top:8px;color:${data.asistencia ? '#55d36a' : '#ff6b6b'};">
+          ${data.asistencia ? 'Asiste' : 'No asiste'}
+        </p>
+
+        <small style="display:block;margin-top:10px;color:#ccc;">
+          ${data.mensaje || '-'}
+        </small>
+
+      </div>
+
+    `;
+  });
+
+  document.getElementById("total")
+  .textContent = total;
+
+  document.getElementById("asisten")
+  .textContent = asisten;
+
+  document.getElementById("no-asisten")
+  .textContent = noAsisten;
 }
 
-document.getElementById("guest-name")
-.textContent = invitado;
+cargarRespuestas();
 
-let asistencia = true;
+const generarBtn =
+document.getElementById("generar-link");
 
-const btnSi = document.getElementById("btn-si");
-const btnNo = document.getElementById("btn-no");
+const linkResult =
+document.getElementById("link-result");
 
-btnSi.addEventListener("click",()=>{
+const nombreInput =
+document.getElementById("nombre-input");
 
-  asistencia = true;
+const eventoSelect =
+document.getElementById("evento-select");
 
-  btnSi.classList.add("active");
-  btnNo.classList.remove("active");
+const BASE_URL =
+"https://cumple-eric.vercel.app";
 
+
+generarBtn.addEventListener("click",()=>{
+
+  const nombre = encodeURIComponent(
+    nombreInput.value
+  );
+
+  const evento = eventoSelect.value;
+
+  const link =
+  `${BASE_URL}/?evento=${evento}&nombre=${nombre}`;
+
+  linkResult.value = link;
 });
 
-btnNo.addEventListener("click",()=>{
 
-  asistencia = false;
+document
+.getElementById("excel-btn")
+.addEventListener("click",exportarExcel);
 
-  btnNo.classList.add("active");
-  btnSi.classList.remove("active");
+async function exportarExcel(){
 
-});
+  const snapshot =
+  await getDocs(collection(db,"respuestas"));
 
-const confirmarBtn =
-document.getElementById("confirmar-btn");
+  const datos = [];
 
-confirmarBtn.addEventListener("click",async()=>{
+  snapshot.forEach((doc)=>{
 
-  const mensaje =
-  document.getElementById("mensaje").value;
+    datos.push(doc.data());
 
-  try{
+  });
 
-    confirmarBtn.innerText = "ENVIANDO...";
+  const ws = XLSX.utils.json_to_sheet(datos);
 
-    await addDoc(collection(db,"respuestas"),{
+  const wb = XLSX.utils.book_new();
 
-      nombre:invitado,
-      evento,
-      asistencia,
-      mensaje,
-      fecha:new Date().toISOString()
+  XLSX.utils.book_append_sheet(
+    wb,
+    ws,
+    "Invitados"
+  );
 
-    });
-
-    confirmarBtn.innerText = "CONFIRMADO ✓";
-
-    alert("Confirmación enviada ✨");
-
-  }catch(err){
-
-    console.error(err);
-
-    confirmarBtn.innerText = "ERROR";
-
-    alert("Error al enviar");
-  }
-});
-
-const targetDate = new Date(data.fechaCountdown);
-
-function updateCountdown(){
-
-  const now = new Date();
-
-  const diff = targetDate - now;
-
-  if(diff <= 0) return;
-
-  const days = Math.floor(diff / (1000 * 60 * 60 * 24));
-
-  const hours = Math.floor((diff / (1000 * 60 * 60)) % 24);
-
-  const minutes = Math.floor((diff / (1000 * 60)) % 60);
-
-  document.getElementById("dias").textContent = days;
-  document.getElementById("horas").textContent = hours;
-  document.getElementById("minutos").textContent = minutes;
+  XLSX.writeFile(wb,"invitados.xlsx");
 }
-
-updateCountdown();
-
-setInterval(updateCountdown,1000);
