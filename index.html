@@ -1,56 +1,89 @@
-<script>
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8" />
+  <title>Invitación</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <link rel="stylesheet" href="style.css" />
+</head>
+<body class="theme-dark">
+  <main class="invite-container">
+    <section class="card">
+      <header class="card-header">
+        <h1 id="event-title">Celebración</h1>
+        <p id="event-phrase" class="event-phrase">
+          Una noche para recordar.
+        </p>
+      </header>
 
-const SCRIPT_URL =
-  "https://script.google.com/macros/s/AKfycbz8pxaG0C_kzEVMLN60azCXl7xobPucjsTZEl2J1bVqADM2p8eKVDd9HBRwBSvmKnwfpA/exec";
+      <section class="card-body">
+        <div class="event-meta">
+          <div class="meta-item">
+            <span class="meta-label">Fecha</span>
+            <span id="event-date" class="meta-value">--/--/----</span>
+          </div>
+          <div class="meta-item">
+            <span class="meta-label">Horario</span>
+            <span id="event-time" class="meta-value">--:--</span>
+          </div>
+          <div class="meta-item">
+            <span class="meta-label">Dirección</span>
+            <a id="event-address" class="meta-value link" href="#" target="_blank" rel="noopener">
+              A confirmar
+            </a>
+          </div>
+        </div>
 
-const params = new URLSearchParams(window.location.search);
+        <div class="countdown" id="countdown">
+          <div class="countdown-item">
+            <span id="cd-days">--</span>
+            <small>días</small>
+          </div>
+          <div class="countdown-item">
+            <span id="cd-hours">--</span>
+            <small>hs</small>
+          </div>
+          <div class="countdown-item">
+            <span id="cd-minutes">--</span>
+            <small>min</small>
+          </div>
+          <div class="countdown-item">
+            <span id="cd-seconds">--</span>
+            <small>seg</small>
+          </div>
+        </div>
 
-const invitado = params.get("nombre") || "Invitado";
+        <div class="guest-name" id="guest-name-wrapper">
+          <span class="meta-label">Invitado:</span>
+          <span id="guest-name" class="meta-value">Invitado especial</span>
+        </div>
 
-let asistira = true;
+        <div class="rsvp">
+          <p class="rsvp-label">Confirmá tu asistencia</p>
+          <div class="rsvp-buttons">
+            <button type="button" class="btn btn-outline" data-rsvp="SI" id="btn-yes">
+              ASISTIRÉ
+            </button>
+            <button type="button" class="btn btn-outline" data-rsvp="NO" id="btn-no">
+              NO PODRÉ
+            </button>
+          </div>
 
-const btnSi = document.getElementById("btn-si");
-const btnNo = document.getElementById("btn-no");
+          <label for="message" class="textarea-label">
+            Mensaje (opcional)
+          </label>
+          <textarea id="message" rows="3" placeholder="Dejá un mensaje si querés..."></textarea>
 
-btnSi.addEventListener("click", () => {
-  asistira = true;
-});
+          <button type="button" class="btn btn-primary" id="btn-confirm">
+            Confirmar
+          </button>
 
-btnNo.addEventListener("click", () => {
-  asistira = false;
-});
+          <p class="status" id="status"></p>
+        </div>
+      </section>
+    </section>
+  </main>
 
-document
-  .getElementById("confirmar-btn")
-  .addEventListener("click", async () => {
-
-    const mensaje =
-      document.getElementById("mensaje").value;
-
-    try {
-
-      const response = await fetch(SCRIPT_URL, {
-        method: "POST",
-        body: JSON.stringify({
-          nombre: invitado,
-          asistencia: asistira ? "Asiste" : "No asiste",
-          mensaje: mensaje
-        })
-      });
-
-      const data = await response.json();
-
-      alert("Confirmación enviada ✨");
-
-      console.log(data);
-
-    } catch (error) {
-
-      console.error(error);
-
-      alert("Error al enviar confirmación");
-
-    }
-
-});
-</script>
+  <script src="script.js"></script>
+</body>
+</html>
