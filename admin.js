@@ -27,14 +27,11 @@ async function cargarRespuestas() {
   try {
     const snapshot = await getDocs(collection(db, "respuestas"));
     allRespuestas = [];
-
     snapshot.forEach(doc => {
       allRespuestas.push({ id: doc.id, ...doc.data() });
     });
-
     renderStats(allRespuestas);
     renderRespuestas(allRespuestas, filtroActivo);
-
   } catch (err) {
     console.error("Error cargando respuestas:", err);
     document.getElementById("respuestas").innerHTML =
@@ -46,7 +43,6 @@ async function cargarRespuestas() {
 function renderStats(data) {
   const asisten   = data.filter(d => d.asistencia).length;
   const noAsisten = data.filter(d => !d.asistencia).length;
-
   document.getElementById("total").textContent      = data.length;
   document.getElementById("asisten").textContent    = asisten;
   document.getElementById("no-asisten").textContent = noAsisten;
@@ -65,12 +61,13 @@ function renderRespuestas(data, filtro) {
     return;
   }
 
+  const labels = { amigos: "Amigos · 21/05", trabajo: "Trabajo · 22/05" };
+
   container.innerHTML = filtered.map(d => {
     const fecha = d.fecha
       ? new Date(d.fecha).toLocaleDateString("es-AR", { day:"2-digit", month:"short", hour:"2-digit", minute:"2-digit" })
       : "";
-
-    const eventoLabel = d.evento === "after" ? "After" : "Cumple";
+    const eventoLabel = labels[d.evento] || d.evento;
 
     return `
       <div class="response-card">
@@ -108,17 +105,13 @@ document.querySelectorAll(".filter-tab").forEach(btn => {
 // ── Generar link ──
 document.getElementById("generar-link").addEventListener("click", () => {
   const nombre = document.getElementById("nombre-input").value.trim();
-  if (!nombre) {
-    document.getElementById("nombre-input").focus();
-    return;
-  }
+  if (!nombre) { document.getElementById("nombre-input").focus(); return; }
   const evento = document.getElementById("evento-select").value;
   const link   = `${BASE_URL}/?evento=${evento}&nombre=${encodeURIComponent(nombre)}`;
 
   const linkResult    = document.getElementById("link-result");
   const linkContainer = document.getElementById("link-container");
-
-  linkResult.value       = link;
+  linkResult.value         = link;
   linkContainer.style.display = "block";
 });
 
@@ -135,14 +128,13 @@ document.getElementById("copy-btn").addEventListener("click", () => {
 
 // ── Exportar Excel ──
 document.getElementById("excel-btn").addEventListener("click", async () => {
-  if (allRespuestas.length === 0) {
-    alert("No hay respuestas para exportar.");
-    return;
-  }
+  if (allRespuestas.length === 0) { alert("No hay respuestas para exportar."); return; }
+
+  const labels = { amigos: "Amigos 21/05", trabajo: "Trabajo 22/05" };
 
   const datos = allRespuestas.map(d => ({
     Nombre:     d.nombre    || "",
-    Evento:     d.evento    || "",
+    Evento:     labels[d.evento] || d.evento || "",
     Asistencia: d.asistencia ? "Sí" : "No",
     Mensaje:    d.mensaje   || "",
     Fecha:      d.fecha     || ""

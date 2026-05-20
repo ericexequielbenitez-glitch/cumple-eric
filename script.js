@@ -20,34 +20,37 @@ const db  = getFirestore(app);
 // ── URL params ──
 const params   = new URLSearchParams(window.location.search);
 const invitado = params.get("nombre") || "Invitado";
-const evento   = params.get("evento") || "principal";
+const evento   = params.get("evento") || "amigos";
+
+// ── Maps link ──
+const MAPS = "https://www.google.com/maps/place/Bricks+coffee+and+food/@-27.4458841,-58.9869402,17z/data=!3m1!4b1!4m6!3m5!1s0x94450d007ebda64d:0x90d95abb863652a6!8m2!3d-27.4458841!4d-58.9869402!16s%2Fg%2F11wpp7zdz0?entry=ttu";
 
 // ── Eventos ──
 const eventos = {
-  principal: {
-    fechaTexto:      "Viernes 21 de Mayo, 2026",
-    hora:            "21:30 hs",
-    direccion:       "Bar Bricks · Corrientes 366",
-    maps:            "https://maps.google.com/?q=Corrientes+366+Buenos+Aires",
-    fechaCountdown:  "2026-05-21T21:30:00"
+  amigos: {
+    fechaTexto:     "Viernes 21 de Mayo, 2026",
+    hora:           "21:30 hs",
+    direccion:      "Bricks Coffee & Food · Corrientes 366",
+    maps:           MAPS,
+    fechaCountdown: "2026-05-21T21:30:00"
   },
-  after: {
-    fechaTexto:      "Sábado 22 de Mayo, 2026",
-    hora:            "00:30 hs",
-    direccion:       "After privado",
-    maps:            "https://maps.google.com",
-    fechaCountdown:  "2026-05-22T00:30:00"
+  trabajo: {
+    fechaTexto:     "Viernes 22 de Mayo, 2026",
+    hora:           "21:30 hs",
+    direccion:      "Bricks Coffee & Food · Corrientes 366",
+    maps:           MAPS,
+    fechaCountdown: "2026-05-22T21:30:00"
   }
 };
 
-// ── FIX: fallback al evento principal si el parámetro no existe ──
-const data = eventos[evento] ?? eventos.principal;
+// ── Fallback al evento amigos si el parámetro no existe ──
+const data = eventos[evento] ?? eventos.amigos;
 
 // ── Rellenar info ──
-document.getElementById("fecha").textContent     = data.fechaTexto;
-document.getElementById("hora").textContent      = data.hora;
-document.getElementById("maps-link").textContent = data.direccion;
-document.getElementById("maps-link").href        = data.maps;
+document.getElementById("fecha").textContent      = data.fechaTexto;
+document.getElementById("hora").textContent       = data.hora;
+document.getElementById("maps-link").textContent  = data.direccion;
+document.getElementById("maps-link").href         = data.maps;
 document.getElementById("guest-name").textContent = invitado;
 
 // ── Botones si/no ──
@@ -75,7 +78,6 @@ const confirmarBtn = document.getElementById("confirmar-btn");
 confirmarBtn.addEventListener("click", async () => {
   const mensaje = document.getElementById("mensaje").value.trim();
 
-  // Deshabilitar mientras envía
   confirmarBtn.disabled  = true;
   confirmarBtn.innerText = "ENVIANDO...";
 
