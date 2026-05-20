@@ -1,432 +1,434 @@
 <!DOCTYPE html>
 <html lang="es">
 <head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Explorar negocios — PuntoChaco</title>
-<link rel="preconnect" href="https://fonts.googleapis.com">
-<link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@300;400;500;600;700;800&family=Playfair+Display:wght@700;800&display=swap" rel="stylesheet">
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+
+<title>Invitación</title>
+
+<link rel="preconnect" href="https://fonts.googleapis.com" />
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600&display=swap" rel="stylesheet" />
+
 <style>
-:root {
-  --blanco:#FFFFFF; --fondo:#F4F9FC; --fondo-2:#EBF5FB;
-  --celeste:#5BADD6; --celeste-claro:#C8E6F5; --celeste-suave:#EBF5FC;
-  --verde:#3A8F5A; --verde-suave:#EAF5EF;
-  --texto:#1A2B4A; --texto-2:#3A5A72; --texto-3:#7A9BB0;
-  --borde:#D8EBF5; --borde-2:#C2DCF0;
-  --r-sm:10px; --r-md:16px; --r-lg:24px;
-  --sombra:0 4px 20px rgba(42,172,226,0.08);
-  --sombra-lg:0 16px 48px rgba(42,172,226,0.14);
-}
-*,*::before,*::after{box-sizing:border-box;margin:0;padding:0;}
-html{scroll-behavior:smooth;}
-body{font-family:'Plus Jakarta Sans',sans-serif;background:var(--fondo);color:var(--texto);-webkit-font-smoothing:antialiased;}
+  /* ───────── RESET ───────── */
+  *, *::before, *::after {
+    box-sizing: border-box;
+    margin: 0;
+    padding: 0;
+  }
 
-/* NAV */
-nav{position:sticky;top:0;z-index:50;height:64px;background:rgba(255,255,255,0.96);backdrop-filter:blur(16px);border-bottom:1.5px solid var(--borde);display:flex;align-items:center;justify-content:space-between;padding:0 32px;}
-.nav-logo{display:flex;align-items:center;gap:10px;text-decoration:none;}
-.nav-logo img{height:52px;width:auto;}
-.nav-right{display:flex;align-items:center;gap:12px;}
-.btn{display:inline-flex;align-items:center;gap:7px;padding:0 18px;height:38px;border-radius:100px;font-family:'Plus Jakarta Sans',sans-serif;font-size:13px;font-weight:600;cursor:pointer;text-decoration:none;border:none;transition:all 0.2s;}
-.btn-ghost{background:transparent;color:var(--texto-2);border:1.5px solid var(--borde-2);}
-.btn-ghost:hover{border-color:var(--celeste);color:var(--celeste);}
-.btn-celeste{background:var(--celeste);color:var(--blanco);box-shadow:0 4px 14px rgba(91,173,214,0.3);}
-.btn-celeste:hover{background:#4A9DC6;transform:translateY(-1px);}
+  :root {
+    --bg: #0f0f10;
+    --card: #18191b;
+    --text: #f3f3f3;
+    --muted: #8e8e8e;
+    --accent: #c9a46b;
+    --line: rgba(201,164,107,0.18);
+  }
 
-/* HERO STRIP */
-.page-header{background:var(--blanco);border-bottom:1.5px solid var(--borde);padding:28px 32px;}
-.page-header-inner{max-width:1160px;margin:0 auto;}
-.page-header h1{font-family:'Playfair Display',serif;font-size:28px;font-weight:800;margin-bottom:8px;}
-.page-header p{font-size:15px;color:var(--texto-2);}
+  html, body {
+    min-height: 100vh;
+    background: var(--bg);
+    font-family: 'Inter', sans-serif;
+    color: var(--text);
+  }
 
-/* SEARCH BAR */
-.search-wrap{max-width:1160px;margin:0 auto;padding:24px 32px 0;}
-.search-bar{background:var(--blanco);border:1.5px solid var(--borde);border-radius:100px;display:flex;align-items:center;padding:8px 8px 8px 20px;gap:10px;box-shadow:var(--sombra);}
-.search-bar svg{width:17px;height:17px;stroke:var(--texto-3);flex-shrink:0;}
-.search-bar input{flex:1;border:none;outline:none;font-family:'Plus Jakarta Sans',sans-serif;font-size:14px;color:var(--texto);background:transparent;}
-.search-bar input::placeholder{color:var(--texto-3);}
-.search-divider{width:1px;height:22px;background:var(--borde);}
-.search-bar select{border:none;outline:none;font-family:'Plus Jakarta Sans',sans-serif;font-size:13px;color:var(--texto-2);background:transparent;cursor:pointer;-webkit-appearance:none;padding-right:4px;}
+  body {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 2rem 1rem;
+  }
 
-/* LAYOUT */
-.main-wrap{max-width:1160px;margin:0 auto;padding:24px 32px 80px;display:grid;grid-template-columns:260px 1fr;gap:24px;align-items:start;}
+  /* ───────── CARD ───────── */
+  .card {
+    width: 100%;
+    max-width: 430px;
+    background: var(--card);
+    border: 1px solid var(--line);
+    border-radius: 18px;
+    padding: 3rem 2rem;
+    box-shadow:
+      0 20px 60px rgba(0,0,0,0.45),
+      inset 0 1px 0 rgba(255,255,255,0.03);
+  }
 
-/* SIDEBAR FILTROS */
-.filtros-sidebar{background:var(--blanco);border:1.5px solid var(--borde);border-radius:var(--r-lg);overflow:hidden;position:sticky;top:88px;}
+  /* ───────── TYPO ───────── */
+  .eyebrow {
+    text-align: center;
+    font-size: 11px;
+    letter-spacing: 4px;
+    text-transform: uppercase;
+    color: var(--accent);
+    margin-bottom: 1rem;
+  }
 
-.filtros-header{padding:16px 20px;border-bottom:1px solid var(--borde);display:flex;align-items:center;justify-content:space-between;}
-.filtros-header span{font-size:13px;font-weight:700;color:var(--texto);}
-.btn-limpiar{background:none;border:none;cursor:pointer;font-size:12px;color:var(--celeste);font-weight:600;font-family:'Plus Jakarta Sans',sans-serif;}
+  .guest-name {
+    text-align: center;
+    font-size: 2rem;
+    font-weight: 500;
+    letter-spacing: 1px;
+    text-transform: uppercase;
+    margin-bottom: 1.5rem;
+  }
 
-.filtros-grupo{padding:16px 20px;border-bottom:1px solid var(--borde);}
-.filtros-grupo:last-child{border-bottom:none;}
-.filtros-grupo-titulo{font-size:11px;font-weight:700;letter-spacing:0.08em;text-transform:uppercase;color:var(--texto-3);margin-bottom:12px;}
+  .divider {
+    width: 50px;
+    height: 2px;
+    background: var(--accent);
+    margin: 0 auto 2rem;
+    opacity: 0.7;
+  }
 
-.cat-filtro{display:flex;align-items:center;gap:8px;padding:7px 10px;border-radius:var(--r-sm);cursor:pointer;transition:all 0.2s;border:1.5px solid transparent;}
-.cat-filtro:hover{background:var(--fondo-2);}
-.cat-filtro.activo{background:var(--celeste-suave);border-color:var(--celeste-claro);}
-.cat-filtro svg{width:16px;height:16px;stroke:var(--texto-3);flex-shrink:0;transition:stroke 0.2s;}
-.cat-filtro.activo svg{stroke:var(--celeste);}
-.cat-filtro span{font-size:13px;font-weight:500;color:var(--texto-2);transition:color 0.2s;}
-.cat-filtro.activo span{color:var(--celeste);font-weight:600;}
-.cat-filtro .cat-count{margin-left:auto;font-size:11px;color:var(--texto-3);background:var(--fondo-2);padding:1px 7px;border-radius:100px;}
+  .event-title {
+    text-align: center;
+    font-size: 1.6rem;
+    font-weight: 300;
+    letter-spacing: 3px;
+    text-transform: uppercase;
+    margin-bottom: 2rem;
+    line-height: 1.4;
+  }
 
-/* LOCALIDAD SELECT */
-.localidad-select{width:100%;height:38px;padding:0 12px;background:var(--fondo);border:1.5px solid var(--borde);border-radius:var(--r-sm);font-family:'Plus Jakarta Sans',sans-serif;font-size:13px;color:var(--texto-2);outline:none;cursor:pointer;-webkit-appearance:none;}
-.localidad-select:focus{border-color:var(--celeste);}
+  /* ───────── INFO ───────── */
+  .info-block {
+    border-top: 1px solid var(--line);
+    border-bottom: 1px solid var(--line);
+    padding: 1.5rem 0;
+    margin-bottom: 2rem;
+  }
 
-/* RESULTADOS */
-.resultados-header{display:flex;align-items:center;justify-content:space-between;margin-bottom:20px;flex-wrap:wrap;gap:12px;}
-.resultados-count{font-size:14px;color:var(--texto-2);}
-.resultados-count strong{color:var(--texto);}
+  .info-row {
+    display: flex;
+    gap: 1rem;
+    margin-bottom: 1rem;
+  }
 
-/* CHIP CATEGORIA ACTIVA */
-.chip-activa{display:inline-flex;align-items:center;gap:6px;padding:4px 12px;background:var(--celeste-suave);border:1.5px solid var(--celeste-claro);border-radius:100px;font-size:13px;font-weight:600;color:var(--celeste);margin-bottom:16px;}
-.chip-activa button{background:none;border:none;cursor:pointer;display:flex;align-items:center;color:var(--celeste);padding:0;}
-.chip-activa button svg{width:14px;height:14px;}
+  .info-row:last-child {
+    margin-bottom: 0;
+  }
 
-/* NEGOCIOS GRID */
-.neg-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(240px,1fr));gap:16px;}
+  .info-label {
+    min-width: 60px;
+    font-size: 10px;
+    letter-spacing: 2px;
+    text-transform: uppercase;
+    color: var(--accent);
+    padding-top: 3px;
+  }
 
-.neg-card{background:var(--blanco);border:1.5px solid var(--borde);border-radius:var(--r-lg);overflow:hidden;transition:all 0.3s;cursor:pointer;text-decoration:none;display:block;}
-.neg-card:hover{transform:translateY(-4px);box-shadow:var(--sombra-lg);border-color:var(--celeste-claro);}
+  .info-value {
+    color: var(--text);
+    font-size: 14px;
+    line-height: 1.6;
+    font-weight: 300;
+  }
 
-.neg-img{height:150px;display:flex;align-items:center;justify-content:center;font-family:'Playfair Display',serif;font-size:32px;font-weight:700;color:var(--blanco);position:relative;background-size:cover;background-position:center;}
-.neg-badge{position:absolute;top:10px;left:10px;padding:3px 10px;background:rgba(255,255,255,0.95);color:var(--celeste);font-size:11px;font-weight:700;border-radius:100px;letter-spacing:0.04em;}
+  /* ───────── RSVP ───────── */
+  .rsvp-label {
+    text-align: center;
+    font-size: 11px;
+    letter-spacing: 3px;
+    text-transform: uppercase;
+    color: var(--muted);
+    margin-bottom: 1rem;
+  }
 
-.neg-body{padding:16px;}
-.neg-cat-lbl{font-size:10px;font-weight:700;letter-spacing:0.08em;text-transform:uppercase;color:var(--verde);margin-bottom:4px;}
-.neg-nombre{font-family:'Plus Jakarta Sans',sans-serif;font-size:16px;font-weight:700;margin-bottom:4px;}
-.neg-loc{display:flex;align-items:center;gap:4px;font-size:12px;color:var(--texto-3);margin-bottom:12px;}
-.neg-loc svg{width:11px;height:11px;}
-.neg-acciones{display:flex;gap:8px;}
+  .rsvp-buttons {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 12px;
+    margin-bottom: 1rem;
+  }
 
-.btn-ver{flex:1;height:34px;background:transparent;color:var(--texto-2);border:1.5px solid var(--borde-2);border-radius:100px;font-family:'Plus Jakarta Sans',sans-serif;font-size:12px;font-weight:600;cursor:pointer;display:flex;align-items:center;justify-content:center;transition:all 0.2s;text-decoration:none;}
-.btn-ver:hover{border-color:var(--celeste);color:var(--celeste);}
-.btn-wa-sm{flex:1;height:34px;background:#25D366;color:var(--blanco);border:none;border-radius:100px;font-family:'Plus Jakarta Sans',sans-serif;font-size:12px;font-weight:600;cursor:pointer;display:flex;align-items:center;justify-content:center;gap:5px;transition:all 0.2s;text-decoration:none;}
-.btn-wa-sm:hover{background:#1ebe59;transform:translateY(-1px);}
+  .btn-rsvp {
+    padding: 0.9rem;
+    background: transparent;
+    border: 1px solid #2e2e2e;
+    color: var(--text);
+    font-family: inherit;
+    font-size: 11px;
+    letter-spacing: 2px;
+    text-transform: uppercase;
+    border-radius: 10px;
+    cursor: pointer;
+    transition: all 0.2s ease;
+  }
 
-/* LOADING */
-.loading{display:flex;flex-direction:column;align-items:center;justify-content:center;padding:80px 20px;text-align:center;grid-column:1/-1;}
-.spinner{width:36px;height:36px;border:3px solid var(--celeste-claro);border-top-color:var(--celeste);border-radius:50%;animation:girar 0.8s linear infinite;margin-bottom:14px;}
-@keyframes girar{to{transform:rotate(360deg);}}
-.loading p{font-size:14px;color:var(--texto-3);}
+  .btn-rsvp:hover {
+    border-color: var(--accent);
+    color: var(--accent);
+  }
 
-/* EMPTY */
-.empty-state{display:flex;flex-direction:column;align-items:center;justify-content:center;padding:80px 20px;text-align:center;background:var(--blanco);border:1.5px dashed var(--borde);border-radius:var(--r-lg);grid-column:1/-1;}
-.empty-state svg{width:48px;height:48px;stroke:var(--texto-3);margin-bottom:16px;}
-.empty-state h3{font-size:18px;font-weight:700;margin-bottom:6px;}
-.empty-state p{font-size:14px;color:var(--texto-2);}
+  .btn-rsvp.selected-yes {
+    background: var(--accent);
+    border-color: var(--accent);
+    color: #111;
+    font-weight: 600;
+  }
 
-/* RESPONSIVE */
-@media(max-width:900px){
-  .main-wrap{grid-template-columns:1fr;}
-  .filtros-sidebar{position:relative;top:0;}
-  nav{padding:0 16px;}
-  .page-header{padding:20px 16px;}
-  .search-wrap{padding:16px 16px 0;}
-  .main-wrap{padding:16px 16px 60px;}
-}
+  .btn-rsvp.selected-no {
+    background: #2a2a2a;
+    border-color: #2a2a2a;
+  }
+
+  textarea {
+    width: 100%;
+    height: 80px;
+    resize: none;
+    background: transparent;
+    border: 1px solid #2e2e2e;
+    border-radius: 10px;
+    padding: 1rem;
+    color: var(--text);
+    font-family: inherit;
+    font-size: 14px;
+    margin-bottom: 1rem;
+    outline: none;
+    transition: border-color 0.2s;
+  }
+
+  textarea:focus {
+    border-color: var(--accent);
+  }
+
+  textarea::placeholder {
+    color: #666;
+  }
+
+  .btn-submit {
+    width: 100%;
+    padding: 1rem;
+    border: none;
+    border-radius: 10px;
+    background: var(--accent);
+    color: #111;
+    font-family: inherit;
+    font-size: 11px;
+    font-weight: 600;
+    letter-spacing: 3px;
+    text-transform: uppercase;
+    cursor: pointer;
+    transition: opacity 0.2s;
+  }
+
+  .btn-submit:hover {
+    opacity: 0.9;
+  }
+
+  .btn-submit:disabled {
+    opacity: 0.4;
+    cursor: not-allowed;
+  }
+
+  /* ───────── STATES ───────── */
+  .msg-success,
+  .msg-error {
+    display: none;
+    text-align: center;
+    padding: 1rem;
+    border-radius: 10px;
+    font-size: 13px;
+    margin-bottom: 1rem;
+  }
+
+  .msg-success {
+    background: rgba(80,140,90,0.15);
+    color: #8ed49a;
+  }
+
+  .msg-error {
+    background: rgba(170,70,70,0.15);
+    color: #ff9b9b;
+  }
+
+  .footer-note {
+    text-align: center;
+    margin-top: 1.5rem;
+    font-size: 11px;
+    letter-spacing: 2px;
+    color: #555;
+    text-transform: uppercase;
+  }
+
+  @media (max-width: 480px) {
+    .card {
+      padding: 2.5rem 1.5rem;
+    }
+
+    .guest-name {
+      font-size: 1.7rem;
+    }
+
+    .event-title {
+      font-size: 1.3rem;
+    }
+  }
 </style>
 </head>
+
 <body>
 
-<!-- NAV -->
-<nav>
-  <a href="index.html" class="nav-logo">
-    <img src="https://res.cloudinary.com/dhrhg6ng6/image/upload/v1779147755/Punto_rzxqg3.png" alt="PuntoChaco">
-  </a>
-  <div class="nav-right" id="navRight">
-    <a href="login.html" class="btn btn-ghost">Iniciar sesión</a>
-    <a href="registro.html" class="btn btn-celeste">Publicar negocio</a>
-  </div>
-</nav>
+<div class="card">
 
-<!-- PAGE HEADER -->
-<div class="page-header">
-  <div class="page-header-inner">
-    <h1>Explorá negocios del Chaco</h1>
-    <p>Encontrá productos y servicios de emprendedores locales de toda la provincia.</p>
+  <p class="eyebrow">Estás invitado</p>
+
+  <h1 class="guest-name" id="guest-name">—</h1>
+
+  <div class="divider"></div>
+
+  <!-- PERSONALIZAR -->
+  <h2 class="event-title">
+    Valentina · 27
+  </h2>
+
+  <div class="info-block">
+
+    <!-- PERSONALIZAR -->
+    <div class="info-row">
+      <span class="info-label">Fecha</span>
+      <span class="info-value">Sábado 12 de julio · 2025</span>
+    </div>
+
+    <div class="info-row">
+      <span class="info-label">Hora</span>
+      <span class="info-value">21:00 hs</span>
+    </div>
+
+    <div class="info-row">
+      <span class="info-label">Lugar</span>
+      <span class="info-value">
+        Palermo Soho · Buenos Aires<br>
+        Dirección exacta por confirmar
+      </span>
+    </div>
+
   </div>
+
+  <!-- RSVP -->
+  <p class="rsvp-label">Confirmación de asistencia</p>
+
+  <div class="rsvp-buttons">
+    <button class="btn-rsvp" id="btn-yes" onclick="selectRSVP(true)">
+      Asistiré
+    </button>
+
+    <button class="btn-rsvp" id="btn-no" onclick="selectRSVP(false)">
+      No podré
+    </button>
+  </div>
+
+  <textarea
+    id="mensaje"
+    placeholder="Mensaje opcional..."
+  ></textarea>
+
+  <div class="msg-success" id="msg-ok">
+    Confirmación enviada correctamente.
+  </div>
+
+  <div class="msg-error" id="msg-err">
+    Ocurrió un error.
+  </div>
+
+  <button
+    class="btn-submit"
+    id="btn-submit"
+    onclick="enviarRSVP()"
+    disabled
+  >
+    Confirmar asistencia
+  </button>
+
+  <p class="footer-note">
+    RSVP
+  </p>
+
 </div>
 
-<!-- SEARCH -->
-<div class="search-wrap">
-  <div class="search-bar">
-    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="11" cy="11" r="8"/><path d="m21 21-4.35-4.35"/></svg>
-    <input type="text" id="inputBusqueda" placeholder="Buscá negocios por nombre..." oninput="filtrarNegocios()">
-    <div class="search-divider"></div>
-    <select id="selectLocalidad" onchange="filtrarNegocios()">
-      <option value="">Todas las localidades</option>
-      <option>Resistencia</option><option>Barranqueras</option>
-      <option>Fontana</option><option>Puerto Vilelas</option>
-      <option>Sáenz Peña</option><option>Villa Ángela</option>
-      <option>Charata</option><option>General San Martín</option>
-      <option>Castelli</option><option>Quitilipi</option>
-      <option>Las Breñas</option><option>Otras</option>
-    </select>
-    <button onclick="filtrarNegocios()" class="btn btn-celeste" style="flex-shrink:0;height:42px;padding:0 20px;font-size:13px;border-radius:100px;">Buscar</button>
-  </div>
-</div>
+<script>
+// ───────── GOOGLE APPS SCRIPT ─────────
+const SCRIPT_URL = "https://script.google.com/macros/s/TU_ID_AQUI/exec";
 
-<!-- MAIN -->
-<div class="main-wrap">
+let selectedAsiste = null;
 
-  <!-- FILTROS SIDEBAR -->
-  <aside class="filtros-sidebar">
-    <div class="filtros-header">
-      <span>Filtros</span>
-      <button class="btn-limpiar" onclick="limpiarFiltros()">Limpiar todo</button>
-    </div>
+// Leer nombre desde URL
+const params = new URLSearchParams(window.location.search);
 
-    <div class="filtros-grupo">
-      <div class="filtros-grupo-titulo">Categoría</div>
-      <div id="listaCategorias"></div>
-    </div>
-  </aside>
+const nombre =
+  params.get("nombre") ||
+  params.get("n") ||
+  "";
 
-  <!-- RESULTADOS -->
-  <div>
-    <div class="resultados-header">
-      <div class="resultados-count" id="contadorResultados">Cargando...</div>
-    </div>
-    <div id="chipCategoriaActiva" style="display:none;" class="chip-activa">
-      <span id="chipTexto"></span>
-      <button onclick="limpiarCategoria()">
-        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg>
-      </button>
-    </div>
-    <div class="neg-grid" id="gridNegocios">
-      <div class="loading">
-        <div class="spinner"></div>
-        <p>Cargando negocios...</p>
-      </div>
-    </div>
-  </div>
+if (nombre) {
+  document.getElementById("guest-name").textContent = nombre;
+  document.title = `Invitación para ${nombre}`;
+}
 
-</div>
+// Selección RSVP
+function selectRSVP(asiste) {
 
-<script type="module">
-  import { initializeApp }   from "https://www.gstatic.com/firebasejs/10.12.0/firebase-app.js";
-  import { getAuth, onAuthStateChanged } from "https://www.gstatic.com/firebasejs/10.12.0/firebase-auth.js";
-  import { getFirestore, collection, getDocs, doc, getDoc, query, where }
-    from "https://www.gstatic.com/firebasejs/10.12.0/firebase-firestore.js";
+  selectedAsiste = asiste;
 
-  const app = initializeApp({
-    apiKey:"AIzaSyCibGsSHDHn6c8VXLzUlqeKXpaxibfpVuc",
-    authDomain:"chacoemprende-df731.firebaseapp.com",
-    projectId:"chacoemprende-df731",
-    storageBucket:"chacoemprende-df731.firebasestorage.app",
-    messagingSenderId:"871612466602",
-    appId:"1:871612466602:web:fe62a4f01c38d5b2c417d3"
-  });
-  const auth = getAuth(app);
-  const db   = getFirestore(app);
+  document.getElementById("btn-yes").className =
+    "btn-rsvp" + (asiste ? " selected-yes" : "");
 
-  // Iconos por categoría
-  const ICONOS = {
-    "Postres": `<path d="M12 2c0 0-2 2-2 4h4c0-2-2-4-2-4z"/><rect x="3" y="11" width="18" height="10" rx="2"/><path d="M3 11c0-2.21 4.03-4 9-4s9 1.79 9 4"/><line x1="3" y1="16" x2="21" y2="16"/>`,
-    "Comida rápida": `<path d="M3 11h18"/><path d="M5 11V8a7 7 0 0 1 14 0v3"/><rect x="2" y="11" width="20" height="3" rx="1"/><path d="M4 14v1a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2v-1"/>`,
-    "Viandas": `<path d="M6 13.87A4 4 0 0 1 7.41 6a5.11 5.11 0 0 1 1.05-1.54 5 5 0 0 1 7.08 0A5.11 5.11 0 0 1 16.59 6 4 4 0 0 1 18 13.87V21H6V13.87z"/><line x1="6" y1="17" x2="18" y2="17"/>`,
-    "Electrónica": `<rect x="7" y="7" width="10" height="10" rx="1"/><path d="M9 7V4M12 7V4M15 7V4M9 20v-3M12 20v-3M15 20v-3M7 9H4M7 12H4M7 15H4M20 9h-3M20 12h-3M20 15h-3"/>`,
-    "Petshop": `<circle cx="8" cy="6" r="1.5"/><circle cx="16" cy="6" r="1.5"/><circle cx="5" cy="11" r="1.5"/><circle cx="19" cy="11" r="1.5"/><path d="M12 22c-3 0-6-2-6-5 0-1.5 1-3 2.5-4h7c1.5 1 2.5 2.5 2.5 4 0 3-3 5-6 5z"/>`,
-    "Carnicería": `<path d="M3 2l11 11"/><path d="M14 13l4.5 4.5a2.12 2.12 0 0 1-3 3L11 16"/><path d="M3 2c4 0 8 2 11 5"/><line x1="14" y1="7" x2="8" y2="13"/>`,
-    "Kiosco": `<path d="M6 2 3 6v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2V6l-3-4z"/><line x1="3" y1="6" x2="21" y2="6"/><path d="M16 10a4 4 0 0 1-8 0"/>`,
-    "Avícola": `<path d="M12 2C8 2 5 5 5 9c0 5.25 7 13 7 13s7-7.75 7-13c0-4-3-7-7-7z"/><circle cx="12" cy="9" r="2"/>`,
-    "Perfumería": `<rect x="6" y="9" width="12" height="13" rx="2"/><path d="M10 9V6h4v3"/><path d="M9 6h1.5a1.5 1.5 0 0 0 0-3H10"/><line x1="10" y1="14" x2="14" y2="14"/>`,
-    "Manualidades": `<circle cx="6" cy="6" r="3"/><circle cx="6" cy="18" r="3"/><line x1="20" y1="4" x2="8.12" y2="15.88"/><line x1="14.47" y1="14.48" x2="20" y2="20"/><line x1="8.12" y1="8.12" x2="12" y2="12"/>`,
-    "Diseño gráfico e impresiones": `<path d="M12 20h9"/><path d="M16.5 3.5a2.121 2.121 0 0 1 3 3L7 19l-4 1 1-4L16.5 3.5z"/>`,
-    "Música": `<path d="M9 18V5l12-2v13"/><circle cx="6" cy="18" r="3"/><circle cx="18" cy="16" r="3"/>`,
-    "Barbería": `<circle cx="6" cy="6" r="3"/><circle cx="6" cy="18" r="3"/><line x1="20" y1="4" x2="8.12" y2="15.88"/><line x1="14.47" y1="14.48" x2="20" y2="20"/>`,
-    "Manicuría": `<path d="M18 11V6l-3-3H7a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h10a2 2 0 0 0 2-2v-3"/><path d="M15 3v4h4"/>`,
-    "Cosmetología": `<circle cx="12" cy="10" r="7"/><path d="M12 17v5"/><path d="M9 20h6"/>`,
-    "Educación": `<path d="M22 10v6M2 10l10-5 10 5-10 5z"/><path d="M6 12v5c3 3 9 3 12 0v-5"/>`,
-    "Deportes": `<circle cx="12" cy="12" r="10"/><path d="M12 2a15.3 15.3 0 0 1 4 10 15.3 15.3 0 0 1-4 10 15.3 15.3 0 0 1-4-10 15.3 15.3 0 0 1 4-10z"/><path d="M2 12h20"/>`,
-    "Entrenamiento personal": `<path d="M6.5 6.5h11M17.5 6.5v7a6 6 0 0 1-12 0v-7"/><line x1="12" y1="2" x2="12" y2="6.5"/>`,
-    "Reparaciones": `<path d="M14.7 6.3a1 1 0 0 0 0 1.4l1.6 1.6a1 1 0 0 0 1.4 0l3.77-3.77a6 6 0 0 1-7.94 7.94l-6.91 6.91a2.12 2.12 0 0 1-3-3l6.91-6.91a6 6 0 0 1 7.94-7.94l-3.76 3.76z"/>`,
-    "Fotografía": `<path d="M23 19a2 2 0 0 1-2 2H3a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h4l2-3h6l2 3h4a2 2 0 0 1 2 2z"/><circle cx="12" cy="13" r="4"/>`,
-    "Diseño": `<path d="M12 20h9"/><path d="M16.5 3.5a2.121 2.121 0 0 1 3 3L7 19l-4 1 1-4L16.5 3.5z"/>`,
-    "Marketing": `<path d="M3 11l19-9-9 19-2-8-8-2z"/>`,
-    "Tecnología": `<rect x="2" y="3" width="20" height="14" rx="2"/><path d="M8 21h8M12 17v4"/>`,
-    "Animales": `<circle cx="8" cy="6" r="1.5"/><circle cx="16" cy="6" r="1.5"/><circle cx="5" cy="11" r="1.5"/><circle cx="19" cy="11" r="1.5"/><path d="M12 22c-3 0-6-2-6-5 0-1.5 1-3 2.5-4h7c1.5 1 2.5 2.5 2.5 4 0 3-3 5-6 5z"/>`,
-    "Otros": `<circle cx="12" cy="12" r="10"/><path d="M12 8v4l3 3"/>`,
-  };
+  document.getElementById("btn-no").className =
+    "btn-rsvp" + (!asiste ? " selected-no" : "");
 
-  const COLORES = [
-    "linear-gradient(135deg,#5BADD6,#3A8F5A)",
-    "linear-gradient(135deg,#3A8F5A,#2A6E43)",
-    "linear-gradient(135deg,#5BADD6,#1A7FB5)",
-    "linear-gradient(135deg,#63C6EC,#5BADD6)",
-    "linear-gradient(135deg,#3A8F5A,#5BADD6)",
-  ];
+  document.getElementById("btn-submit").disabled = false;
+}
 
-  let todosNegocios = [];
-  let categoriaActiva = "";
+// Enviar RSVP
+async function enviarRSVP() {
 
-  // Navbar dinámico
-  onAuthStateChanged(auth, async (user) => {
-    if (!user) return;
-    try {
-      const snap = await getDoc(doc(db, "usuarios", user.uid));
-      if (!snap.exists()) return;
-      const d = snap.data();
-      const destino = d.rol === "admin" ? "admin.html" : d.rol === "vendedor" ? "dashboard.html" : "#";
-      document.getElementById("navRight").innerHTML =
-        (d.rol !== "comprador" ? `<a href="${destino}" class="btn btn-ghost" style="gap:7px;">
-          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" width="14" height="14"><rect x="3" y="3" width="7" height="7"/><rect x="14" y="3" width="7" height="7"/><rect x="14" y="14" width="7" height="7"/><rect x="3" y="14" width="7" height="7"/></svg>
-          Mi panel
-        </a>` : "") +
-        `<span style="font-size:14px;color:var(--texto-2);font-weight:600;">Hola, ${d.nombre}</span>`;
-    } catch(e) {}
-  });
+  if (selectedAsiste === null) return;
 
-  // Leer categoría de la URL
-  const params = new URLSearchParams(window.location.search);
-  const catUrl = params.get("categoria");
-  if (catUrl) {
-    categoriaActiva = decodeURIComponent(catUrl);
-  }
+  const btn = document.getElementById("btn-submit");
 
-  // Cargar negocios
-  async function cargar() {
-    try {
-      const snap = await getDocs(query(collection(db, "negocios"), where("aprobado", "==", true)));
-      todosNegocios = snap.docs.map(d => ({ id: d.id, ...d.data() }));
-    } catch(e) {
-      // Si falla, mostrar demo
-      todosNegocios = generarDemo();
-    }
-    construirFiltros();
-    renderNegocios();
-  }
+  btn.disabled = true;
+  btn.textContent = "Enviando...";
 
-  function generarDemo() {
-    return [
-      { id:"1", nombre:"Vero Pastelería", categoria:"Postres", localidad:"Resistencia", whatsapp:"3624000001", slug:"vero-pasteleria" },
-      { id:"2", nombre:"Black Barber", categoria:"Barbería", localidad:"Sáenz Peña", whatsapp:"3624000002", slug:"black-barber" },
-      { id:"3", nombre:"Nails & More", categoria:"Manicuría", localidad:"Fontana", whatsapp:"3624000003", slug:"nails-more" },
-      { id:"4", nombre:"Tech Chaco", categoria:"Tecnología", localidad:"Resistencia", whatsapp:"3624000004", slug:"tech-chaco" },
-      { id:"5", nombre:"Foto Artística", categoria:"Fotografía", localidad:"Resistencia", whatsapp:"3624000005", slug:"foto-artistica" },
-      { id:"6", nombre:"Carnicería El Campo", categoria:"Carnicería", localidad:"Charata", whatsapp:"3624000006", slug:"carniceria-el-campo" },
-    ];
-  }
+  const msgOk  = document.getElementById("msg-ok");
+  const msgErr = document.getElementById("msg-err");
 
-  function construirFiltros() {
-    const conteo = {};
-    todosNegocios.forEach(n => {
-      const cat = n.categoria || "Otros";
-      conteo[cat] = (conteo[cat] || 0) + 1;
+  msgOk.style.display = "none";
+  msgErr.style.display = "none";
+
+  try {
+
+    const res = await fetch(SCRIPT_URL, {
+      method: "POST",
+
+      body: JSON.stringify({
+        action: "rsvp",
+        nombre: nombre || "Invitado",
+        asiste: selectedAsiste,
+        mensaje: document.getElementById("mensaje").value
+      })
     });
 
-    const lista = document.getElementById("listaCategorias");
-    const cats = Object.entries(conteo).sort((a,b) => b[1]-a[1]);
+    const data = await res.json();
 
-    lista.innerHTML = cats.map(([cat, count]) => {
-      const icono = ICONOS[cat] || ICONOS["Otros"];
-      const activo = categoriaActiva === cat ? "activo" : "";
-      return `<div class="cat-filtro ${activo}" onclick="seleccionarCategoria('${cat.replace(/'/g,"\\'")}')">
-        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" width="16" height="16">${icono}</svg>
-        <span>${cat}</span>
-        <span class="cat-count">${count}</span>
-      </div>`;
-    }).join("");
-  }
+    if (data.ok) {
 
-  window.seleccionarCategoria = function(cat) {
-    categoriaActiva = categoriaActiva === cat ? "" : cat;
-    construirFiltros();
-    renderNegocios();
+      msgOk.style.display = "block";
+      btn.textContent = "Confirmado";
 
-    // Actualizar URL sin recargar
-    const url = new URL(window.location);
-    if (categoriaActiva) url.searchParams.set("categoria", categoriaActiva);
-    else url.searchParams.delete("categoria");
-    window.history.replaceState({}, "", url);
-  };
-
-  window.limpiarCategoria = function() {
-    categoriaActiva = "";
-    construirFiltros();
-    renderNegocios();
-    const url = new URL(window.location);
-    url.searchParams.delete("categoria");
-    window.history.replaceState({}, "", url);
-  };
-
-  window.limpiarFiltros = function() {
-    categoriaActiva = "";
-    document.getElementById("inputBusqueda").value = "";
-    document.getElementById("selectLocalidad").value = "";
-    construirFiltros();
-    renderNegocios();
-  };
-
-  window.filtrarNegocios = function() { renderNegocios(); };
-
-  function renderNegocios() {
-    const busqueda   = document.getElementById("inputBusqueda").value.toLowerCase();
-    const localidad  = document.getElementById("selectLocalidad").value;
-
-    let lista = todosNegocios.filter(n => {
-      const matchCat  = !categoriaActiva || (n.categoria || "") === categoriaActiva;
-      const matchBus  = !busqueda || (n.nombre||"").toLowerCase().includes(busqueda);
-      const matchLoc  = !localidad || (n.localidad||"") === localidad;
-      return matchCat && matchBus && matchLoc;
-    });
-
-    // Chip categoría activa
-    const chip = document.getElementById("chipCategoriaActiva");
-    if (categoriaActiva) {
-      chip.style.display = "inline-flex";
-      document.getElementById("chipTexto").textContent = categoriaActiva;
     } else {
-      chip.style.display = "none";
+      throw new Error(data.error);
     }
 
-    // Contador
-    document.getElementById("contadorResultados").innerHTML =
-      `<strong>${lista.length}</strong> negocio${lista.length !== 1 ? "s" : ""} encontrado${lista.length !== 1 ? "s" : ""}` +
-      (categoriaActiva ? ` en <strong>${categoriaActiva}</strong>` : "");
+  } catch (e) {
 
-    const grid = document.getElementById("gridNegocios");
+    msgErr.style.display = "block";
+    msgErr.textContent = "Error: " + e.message;
 
-    if (!lista.length) {
-      grid.innerHTML = `<div class="empty-state">
-        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><circle cx="11" cy="11" r="8"/><path d="m21 21-4.35-4.35"/></svg>
-        <h3>No encontramos negocios</h3>
-        <p>Probá con otro filtro o categoría.</p>
-      </div>`;
-      return;
-    }
-
-    grid.innerHTML = lista.map((n, i) => {
-      const color = COLORES[i % COLORES.length];
-      const inicial = (n.nombre||"?")[0].toUpperCase();
-      const wa = n.whatsapp ? n.whatsapp.replace(/\D/g,"") : "";
-      return `<div class="neg-card">
-        <div class="neg-img" style="${n.logoUrl ? `background-image:url('${n.logoUrl}')` : `background:${color}`}">
-          ${!n.logoUrl ? inicial : ""}
-          ${n.destacado ? '<div class="neg-badge">Destacado</div>' : ""}
-        </div>
-        <div class="neg-body">
-          <div class="neg-cat-lbl">${n.categoria||""}</div>
-          <div class="neg-nombre">${n.nombre||""}</div>
-          <div class="neg-loc">
-            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z"/><circle cx="12" cy="10" r="3"/></svg>
-            ${n.localidad||""}
-          </div>
-          <div class="neg-acciones">
-            <a href="negocio.html${n.slug ? '?slug='+n.slug : ''}" class="btn-ver">Ver negocio</a>
-            ${wa ? `<a href="https://wa.me/${wa}" target="_blank" class="btn-wa-sm">
-              <svg viewBox="0 0 24 24" fill="currentColor" width="13" height="13"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 0 1-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 0 1-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 0 1 2.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0 0 12.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 0 0 5.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 0 0-3.48-8.413z"/></svg>
-              WhatsApp
-            </a>` : ""}
-          </div>
-        </div>
-      </div>`;
-    }).join("");
+    btn.disabled = false;
+    btn.textContent = "Confirmar asistencia";
   }
-
-  cargar();
+}
 </script>
+
 </body>
 </html>
